@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "955377080320",
+    "project_id": "socceirb",
+    "storage_bucket": "socceirb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955377080320:android:1de3ad9e9013611227a0e5",
+        "android_client_info": {
+          "package_name": "com.example.socceirb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "955377080320-009iivet4qv1q91i627bht3uuh1cu99b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuzvfI9p_4CQCSPakNzvBoDQocR4TqAxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955377080320-009iivet4qv1q91i627bht3uuh1cu99b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

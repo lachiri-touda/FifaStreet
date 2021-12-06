@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/components/round_button.dart';
+import 'package:socceirb/components/show_dialog.dart';
 import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
 import 'package:socceirb/services/authentication.dart';
@@ -22,6 +24,13 @@ class _SignupScreenState extends State<SignupScreen> {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     //final authService = Provider.of<AuthenticationService>(context);
+
+    _signup(String email, String password) async {
+      await context
+          .read<AuthenticationService>()
+          .createUser(email, password, context);
+    }
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -70,19 +79,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   //onFieldSubmitted: (newValue) => {setState(() {})},
                 ),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.15,
+                  height: SizeConfig.screenHeight * 0.12,
                 ),
                 DefaultButton(
-                  text: "Register",
-                  press: () => {
-                    // authService.signInWithEmailAndPassword(
-                    //    emailController.text, passwordController.text),
-                    context
-                        .read<AuthenticationService>()
-                        .createUserWithEmailAndPassword(
-                            emailController.text, passwordController.text)
-                  },
-                ),
+                    text: "Register",
+                    press: () => {
+                          _signup(
+                              emailController.text, passwordController.text),
+                        }),
                 SizedBox(
                   height: 20,
                 ),

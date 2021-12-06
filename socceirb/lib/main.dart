@@ -23,7 +23,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthenticationService(),),
+        ChangeNotifierProvider(
+          create: (_) => AuthenticationService(),
+        ),
         ChangeNotifierProvider(create: (_) => UserData()),
         ChangeNotifierProvider(create: (_) => HomePageAccess()),
       ],

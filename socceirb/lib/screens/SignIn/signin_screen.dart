@@ -1,7 +1,13 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, avoid_print
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/src/provider.dart';
 import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/components/round_button.dart';
+import 'package:socceirb/components/show_dialog.dart';
 import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/SignUp/signup_screen.dart';
 import 'package:socceirb/services/authentication.dart';
@@ -17,9 +23,15 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
+    FirebaseAuthException? error;
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     final authService = Provider.of<AuthenticationService>(context);
+
+    _signin(String email, String password) async {
+      context.read<AuthenticationService>().signIn(email, password, context);
+    }
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -68,24 +80,23 @@ class _SigninScreenState extends State<SigninScreen> {
                   //onFieldSubmitted: (newValue) => {setState(() {})},
                 ),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.15,
+                  height: SizeConfig.screenHeight * 0.12,
                 ),
                 DefaultButton(
                   text: "Connexion",
                   press: () => {
-                    // authService.signInWithEmailAndPassword(
-                    //    emailController.text, passwordController.text),
-                   // context.read<AuthenticationService>().signInWithEmailAndPassword(emailController.text, passwordController.text),
-                    authService.signInWithEmailAndPassword(emailController.text, passwordController.text)
+                    //context.read<AuthenticationService>().setTrue(),
+                    _signin(emailController.text, passwordController.text),
+                    setState(() {}),
                   },
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
                 DefaultButton(
-                  text: "Register",
-                  press: () => Navigator.pushNamed(
-                      context, const SignupScreen().routeName),
+                  text: "Create new account",
+                  press: () =>
+                      Navigator.pushNamed(context, SignupScreen().routeName),
                 ),
               ],
             ),

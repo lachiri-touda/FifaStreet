@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,48 +20,15 @@ class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    //bool connected = false;
-    //final myuser = context.watch<AuthenticationService>().user;
-    final authService = context.watch<AuthenticationService>().firebaseAuth;
-    //bool userState = context.watch<AuthenticationService>().userState;
-    //final myuser = context.watch<AuthenticationService>().firebaseAuth.currentUser;
-    /*myauth.authStateChanges().listen((myuser) {
-    if (myuser == null) {
-      setState(() {
-      connected = false;
-    });
-      print('User is currently signed out!');
-    } else {
-      setState(() {
-      connected = true;
-    });
-      print(myuser.email);
-    }
-  });*/
-    return //connected ? SigninScreen() : AppNavigationBottomBar();
-    StreamBuilder<User?>(
-        stream: authService.authStateChanges(),
-        builder: (_, snapshot) {
-          final isSignedIn = snapshot.data != null;
-          return isSignedIn ? AppNavigationBottomBar() : SigninScreen();
-        },
-      );
-       // myuser == null ? SigninScreen() : AppNavigationBottomBar();
-    /*final authService = Provider.of<AuthenticationService>(context);
     return StreamBuilder<UserAuth?>(
       stream: context.watch<AuthenticationService>().user,
       builder: (_, AsyncSnapshot<UserAuth?> snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          final UserAuth? user = snapshot.data;
-          return user == null ? SigninScreen() : AppNavigationBottomBar();
-        } else {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+        final isSignedIn = snapshot.data != null ? snapshot.data!.email : null;
+        if (isSignedIn != null) {
+          print(snapshot.data!.email);
         }
+        return isSignedIn != null ? AppNavigationBottomBar() : SigninScreen();
       },
-    );*/
+    );
   }
 }

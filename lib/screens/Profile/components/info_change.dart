@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors,
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:socceirb/constants.dart';
@@ -16,6 +18,24 @@ class InfoChange extends StatefulWidget {
 
 class _InfoChangeState extends State<InfoChange> {
   String? newInfo;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final user = auth.FirebaseAuth.instance.currentUser;
+  //final docId = users.where('email', isEqualTo: user!.email). ;
+
+  Future<void> updateUser() {
+    return users
+        //.where('email', isEqualTo: user!.email)
+        .doc()
+        .set(
+          {
+            'email': "newemail@gmail.com",
+            'age': "69",
+          },
+          SetOptions(merge: true),
+        )
+        .then((value) => print("SUCCESS"))
+        .catchError((error) => print(error));
+  }
 
   @override
   Widget build(BuildContext context) {

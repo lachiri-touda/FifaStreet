@@ -1,5 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:socceirb/app_navigation_bottom_bar.dart';
+import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/components/round_button.dart';
 import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
@@ -41,12 +43,12 @@ class HomeState extends State<Home> {
                   })
                 },
               ),
-              InkWell(
-                onTap: () => context.read<AuthenticationService>().signOut(),
-                child: const RoundButton(
-                  color: Colors.yellow,
-                  icon: Icon(Icons.exit_to_app),
-                ),
+              DefaultButton(
+                text: "Sign out",
+                press: () => {
+                  context.read<AuthenticationService>().signOut().then,
+                  Navigator.pushNamed(context, const SigninScreen().routeName),
+                },
               ),
             ],
           ),

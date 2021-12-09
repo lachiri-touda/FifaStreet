@@ -25,9 +25,11 @@ class _WrapperState extends State<Wrapper> {
       builder: (_, AsyncSnapshot<UserAuth?> snapshot) {
         final isSignedIn = snapshot.data != null ? snapshot.data!.email : null;
         if (isSignedIn != null) {
-          print(snapshot.data!.email);
+          print("USER STREAM UPDATED ===> " + snapshot.data!.email.toString());
         }
-        return isSignedIn != null ? AppNavigationBottomBar() : SigninScreen();
+        return isSignedIn != null
+            ? const AppNavigationBottomBar()
+            : const SigninScreen();
       },
     );
   }

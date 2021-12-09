@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:socceirb/components/show_dialog.dart';
-import 'package:socceirb/screens/Profile/components/user.dart';
 import 'package:socceirb/user/user_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthenticationService with ChangeNotifier {
   bool userState = false;
@@ -23,6 +21,7 @@ class AuthenticationService with ChangeNotifier {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      return true;
     } on auth.FirebaseAuthException catch (e) {
       print("ERROR MESSAGE ===>" + e.message!);
       showMyDialog(
@@ -37,6 +36,7 @@ class AuthenticationService with ChangeNotifier {
     try {
       await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      return true;
     } on auth.FirebaseAuthException catch (e) {
       print("ERROR MESSAGE ===>" + e.message!);
       showMyDialog(
@@ -47,7 +47,12 @@ class AuthenticationService with ChangeNotifier {
     }
   }
 
-  Future<void> signOut() async {
-    return await firebaseAuth.signOut();
+  Future signOut() async {
+    try {
+      await firebaseAuth.signOut();
+      return true;
+    } on auth.FirebaseAuthException catch (e) {
+      print("ERROR LOGOUT azertyMESSAGE ===>" + e.message!);
+    }
   }
 }

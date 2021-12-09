@@ -3,13 +3,15 @@ import 'package:provider/src/provider.dart';
 import 'package:socceirb/constants.dart';
 import 'package:socceirb/routes.dart';
 import 'package:socceirb/screens/Home/home_screen.dart';
+import 'package:socceirb/screens/Map/map_screen.dart';
+import 'package:socceirb/screens/NewMatch/match_screen.dart';
 import 'package:socceirb/screens/Profile/profile_screen.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
 import 'package:socceirb/screens/SignUp/signup_screen.dart';
 
-
 class AppNavigationBottomBar extends StatefulWidget {
   const AppNavigationBottomBar({Key? key}) : super(key: key);
+  final String routeName = "/AppNav";
 
   @override
   State<AppNavigationBottomBar> createState() => _AppNavigationBottomBarState();
@@ -19,8 +21,8 @@ class _AppNavigationBottomBarState extends State<AppNavigationBottomBar> {
   int _selectedIndex = 0;
   final screenBar = [
     const Home(),
-    const SignupScreen(),
-    const SigninScreen(),
+    const MapScreen(),
+    const MatchScreen(),
     const Profile(),
   ];
   void _onItemTapped(int index) {
@@ -34,42 +36,42 @@ class _AppNavigationBottomBarState extends State<AppNavigationBottomBar> {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
-          body: IndexedStack(
-            index: _selectedIndex,
-            children: screenBar,
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _selectedIndex,
-            backgroundColor: Colors.purple,
-            showSelectedLabels: true,
-            showUnselectedLabels: false,
-            selectedItemColor: Colors.amber[800],
-            unselectedItemColor: Colors.white,
-            onTap: (index) => {
-              _onItemTapped(index),
-              //Navigator.pushNamed(context, screenBar[index]),
-            },
-            iconSize: 30,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.map_outlined),
-                label: 'Map',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add),
-                label: 'New Match',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle_outlined),
-                label: 'Profile',
-              ),
-            ],
-          ),
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: screenBar,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _selectedIndex,
+          backgroundColor: Colors.purple,
+          showSelectedLabels: true,
+          showUnselectedLabels: false,
+          selectedItemColor: Colors.amber[800],
+          unselectedItemColor: Colors.white,
+          onTap: (index) => {
+            _onItemTapped(index),
+            //Navigator.pushNamed(context, screenBar[index]),
+          },
+          iconSize: 30,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.map_outlined),
+              label: 'Map',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              label: 'New Match',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle_outlined),
+              label: 'Profile',
+            ),
+          ],
+        ),
         //initialRoute: const Home().routeName,
       ),
     );

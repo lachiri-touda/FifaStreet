@@ -1,14 +1,13 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:socceirb/app_navigation_bottom_bar.dart';
 import 'package:socceirb/components/default_button.dart';
-import 'package:socceirb/components/round_button.dart';
-import 'package:socceirb/components/show_dialog.dart';
 import 'package:socceirb/constants.dart';
+import 'package:socceirb/screens/Profile/profile_screen.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
 import 'package:socceirb/services/authentication.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -19,6 +18,9 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  String docId = '';
+
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
@@ -26,9 +28,25 @@ class _SignupScreenState extends State<SignupScreen> {
     //final authService = Provider.of<AuthenticationService>(context);
 
     _signup(String email, String password) async {
-      await context
+      if (await context
           .read<AuthenticationService>()
-          .createUser(email, password, context);
+          .createUser(email, password, context)) {
+        Navigator.pushNamed(context, AppNavigationBottomBar().routeName);
+      }
+    }
+
+    Future<void> addUser(String email, String password) {
+      // Call the user's CollectionReference to add a new user
+      return users
+          .add({'email': email, 'password': password, 'age': "18"})
+          .then((value) => //setState(() => docId = value.id)
+              {
+                context.read<UserData>().setValue(
+                      newValue: value.id,
+                      info: "docId",
+                    ),
+              })
+          .catchError((error) => print("Failed to add user: $error"));
     }
 
     return SafeArea(
@@ -86,6 +104,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     press: () => {
                           _signup(
                               emailController.text, passwordController.text),
+                          addUser(emailController.text, passwordController.text)
                         }),
                 SizedBox(
                   height: 20,

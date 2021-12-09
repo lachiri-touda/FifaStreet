@@ -3,8 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/src/provider.dart';
+import 'package:socceirb/app_navigation_bottom_bar.dart';
 import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/components/round_button.dart';
 import 'package:socceirb/components/show_dialog.dart';
@@ -29,7 +29,11 @@ class _SigninScreenState extends State<SigninScreen> {
     final authService = Provider.of<AuthenticationService>(context);
 
     _signin(String email, String password) async {
-      context.read<AuthenticationService>().signIn(email, password, context);
+      if (await context
+          .read<AuthenticationService>()
+          .signIn(email, password, context)) {
+        Navigator.pushNamed(context, AppNavigationBottomBar().routeName);
+      }
     }
 
     return SafeArea(
@@ -87,7 +91,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   press: () => {
                     //context.read<AuthenticationService>().setTrue(),
                     _signin(emailController.text, passwordController.text),
-                    setState(() {}),
+                    //setState(() {}),
                   },
                 ),
                 SizedBox(

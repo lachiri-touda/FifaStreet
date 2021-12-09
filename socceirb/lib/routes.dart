@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socceirb/app_navigation_bottom_bar.dart';
 import 'package:socceirb/screens/Home/home_screen.dart';
 import 'package:socceirb/screens/Map/map_screen.dart';
 import 'package:socceirb/screens/NewMatch/match_screen.dart';
@@ -15,4 +16,6 @@ final Map<String, WidgetBuilder> routes = {
   InfoChange().routeName: (context) => InfoChange(),
   const SigninScreen().routeName: (context) => const SigninScreen(),
   const SignupScreen().routeName: (context) => const SignupScreen(),
+  const AppNavigationBottomBar().routeName: (context) =>
+      const AppNavigationBottomBar(),
 };

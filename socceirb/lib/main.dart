@@ -13,7 +13,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:socceirb/services/authentication.dart';
 import 'package:socceirb/themes.dart';
 import 'package:socceirb/wrapper.dart';
-
 import 'app_navigation_bottom_bar.dart';
 
 void main() async {

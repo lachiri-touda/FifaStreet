@@ -13,9 +13,9 @@ final Map<String, WidgetBuilder> routes = {
   //const Profile().routeName: (context) => const Profile(),
   const MapScreen().routeName: (context) => const MapScreen(),
   const MatchScreen().routeName: (context) => const MatchScreen(),
-  InfoChange().routeName: (context) => InfoChange(),
+  //InfoChange().routeName: (context) => InfoChange(),
   const SigninScreen().routeName: (context) => const SigninScreen(),
   const SignupScreen().routeName: (context) => const SignupScreen(),
-  const AppNavigationBottomBar().routeName: (context) =>
-      const AppNavigationBottomBar(),
+  // const AppNavigationBottomBar().routeName: (context) =>
+  //     const AppNavigationBottomBar(),
 };

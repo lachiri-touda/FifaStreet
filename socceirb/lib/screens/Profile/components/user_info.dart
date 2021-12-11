@@ -40,13 +40,19 @@ class UserInfo extends StatelessWidget {
                 ),
               ),
             ),
-            const Spacer(),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 17,
-                color: Colors.grey[500],
-                fontWeight: FontWeight.w400,
+            SizedBox(width: SizeConfig.screenWidth * 0.07),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    fontSize: 17,
+                    color: Colors.grey[500],
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
             ),
             const SizedBox(

@@ -9,7 +9,18 @@ import 'package:socceirb/screens/Profile/components/user.dart';
 import 'package:socceirb/screens/Profile/profile_screen.dart';
 
 class InfoChange extends StatefulWidget {
-  InfoChange({Key? key}) : super(key: key);
+  InfoChange(
+      {Key? key,
+      required this.myAppUser,
+      required this.infoType,
+      required this.userData,
+      required this.uid})
+      : super(key: key);
+
+  User myAppUser;
+  String userData;
+  final String infoType;
+  String uid;
 
   final String routeName = "/changeInfo";
   @override
@@ -18,31 +29,68 @@ class InfoChange extends StatefulWidget {
 
 class _InfoChangeState extends State<InfoChange> {
   String? newInfo;
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-  final user = auth.FirebaseAuth.instance.currentUser;
-  //final docId = users.where('email', isEqualTo: user!.email). ;
-
-  Future<void> updateUser() {
-    return users
-        //.where('email', isEqualTo: user!.email)
-        .doc()
-        .set(
-          {
-            'email': "newemail@gmail.com",
-            'age': "69",
-          },
-          SetOptions(merge: true),
-        )
-        .then((value) => print("SUCCESS"))
-        .catchError((error) => print(error));
-  }
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as UserDetailsArguments;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final user = auth.FirebaseAuth.instance.currentUser;
+    //final docId = users.where('email', isEqualTo: user!.email). ;
+
+    updateUser({required String dataToUpdate, required String newValue}) {
+      if (dataToUpdate == "Email address") {
+        users.doc(widget.uid).set(
+          {
+            'Email': newValue,
+          },
+          SetOptions(merge: true),
+        );
+        user!.updateEmail(newValue);
+      }
+      if (dataToUpdate == "Name") {
+        users.doc(widget.uid).set(
+          {
+            'Name': newValue,
+          },
+          SetOptions(merge: true),
+        );
+      }
+      if (dataToUpdate == "Phone Number") {
+        users.doc(widget.uid).set(
+          {
+            'Phone Number': newValue,
+          },
+          SetOptions(merge: true),
+        );
+      }
+      if (dataToUpdate == "Address") {
+        users.doc(widget.uid).set(
+          {
+            'Address': newValue,
+          },
+          SetOptions(merge: true),
+        );
+      }
+      if (dataToUpdate == "Poste de jeu") {
+        users.doc(widget.uid).set(
+          {
+            'Poste de jeu': newValue,
+          },
+          SetOptions(merge: true),
+        );
+      }
+      if (dataToUpdate == "Password") {
+        users.doc(widget.uid).set(
+          {
+            'Password': newValue,
+          },
+          SetOptions(merge: true),
+        );
+        user!.updatePassword(newValue);
+      }
+    }
+
     TextEditingController controller =
-        TextEditingController(text: args.userData);
+        TextEditingController(text: widget.userData);
 
     return SafeArea(
       child: Scaffold(
@@ -83,7 +131,7 @@ class _InfoChangeState extends State<InfoChange> {
                   alignment: Alignment.center,
                   //margin: EdgeInsets.only(right: 135),
                   child: Text(
-                    args.infoType,
+                    widget.infoType,
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
@@ -104,7 +152,7 @@ class _InfoChangeState extends State<InfoChange> {
                 Container(
                   margin: EdgeInsets.only(left: 10, top: 40, bottom: 10),
                   child: Text(
-                    args.infoType,
+                    widget.infoType,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontWeight: FontWeight.w400,
@@ -115,7 +163,6 @@ class _InfoChangeState extends State<InfoChange> {
                 TextField(
                   cursorHeight: 27,
                   controller: controller,
-                  //initialValue: args.userData,
                   decoration: inputDecoration(),
                 ),
                 SizedBox(
@@ -124,10 +171,14 @@ class _InfoChangeState extends State<InfoChange> {
                 InkWell(
                   borderRadius: BorderRadius.circular(20),
                   onTap: () => {
-                    context.read<UserData>().setValue(
-                          newValue: controller.text,
-                          info: args.infoType,
-                        )
+                    context.read<User>().setValue(
+                        newValue: controller.text,
+                        info: widget.infoType,
+                        user: widget.myAppUser),
+                    updateUser(
+                        dataToUpdate: widget.infoType,
+                        newValue: controller.text),
+                    Navigator.pop(context),
                   },
                   child: Container(
                     height: SizeConfig.screenHeight * 0.045,
@@ -140,7 +191,7 @@ class _InfoChangeState extends State<InfoChange> {
                     ),
                     child: Center(
                       child: Text(
-                        "Update my ${args.infoType}",
+                        "Update my ${widget.infoType}",
                         style: TextStyle(
                           color: Colors.purple,
                           fontWeight: FontWeight.w400,
@@ -160,7 +211,6 @@ class _InfoChangeState extends State<InfoChange> {
 
   InputDecoration inputDecoration() {
     return InputDecoration(
-      //floatingLabelBehavior: FloatingLabelBehavior.always,
       filled: true,
       fillColor: Colors.white,
       focusedBorder: OutlineInputBorder(
@@ -174,7 +224,6 @@ class _InfoChangeState extends State<InfoChange> {
           color: Colors.grey[600]!,
           width: 0.2,
         ),
-        // borderRadius: new BorderRadius.circular(25.7),
       ),
       contentPadding: EdgeInsets.symmetric(
         horizontal: 10,
@@ -187,6 +236,12 @@ class _InfoChangeState extends State<InfoChange> {
 class UserDetailsArguments {
   String userData;
   final String infoType;
+  String uid;
+  User myUser;
 
-  UserDetailsArguments({required this.userData, required this.infoType});
+  UserDetailsArguments(
+      {required this.userData,
+      required this.infoType,
+      required this.uid,
+      required this.myUser});
 }

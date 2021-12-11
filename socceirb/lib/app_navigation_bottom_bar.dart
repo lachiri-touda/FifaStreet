@@ -5,12 +5,15 @@ import 'package:socceirb/routes.dart';
 import 'package:socceirb/screens/Home/home_screen.dart';
 import 'package:socceirb/screens/Map/map_screen.dart';
 import 'package:socceirb/screens/NewMatch/match_screen.dart';
+import 'package:socceirb/screens/Profile/components/user.dart';
 import 'package:socceirb/screens/Profile/profile_screen.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
 import 'package:socceirb/screens/SignUp/signup_screen.dart';
 
 class AppNavigationBottomBar extends StatefulWidget {
-  const AppNavigationBottomBar({Key? key}) : super(key: key);
+  const AppNavigationBottomBar({Key? key, required this.myAppUser})
+      : super(key: key);
+  final User? myAppUser;
   final String routeName = "/AppNav";
 
   @override
@@ -19,12 +22,7 @@ class AppNavigationBottomBar extends StatefulWidget {
 
 class _AppNavigationBottomBarState extends State<AppNavigationBottomBar> {
   int _selectedIndex = 0;
-  final screenBar = [
-    const Home(),
-    const MapScreen(),
-    const MatchScreen(),
-    const Profile(),
-  ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -34,6 +32,14 @@ class _AppNavigationBottomBarState extends State<AppNavigationBottomBar> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final screenBar = [
+      const Home(),
+      const MapScreen(),
+      const MatchScreen(),
+      Profile(
+        myAppUser: widget.myAppUser!,
+      ),
+    ];
     return SafeArea(
       child: Scaffold(
         body: IndexedStack(

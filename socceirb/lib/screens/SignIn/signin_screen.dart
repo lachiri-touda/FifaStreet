@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, avoid_print
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
@@ -9,6 +9,7 @@ import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/components/round_button.dart';
 import 'package:socceirb/components/show_dialog.dart';
 import 'package:socceirb/constants.dart';
+import 'package:socceirb/screens/Profile/components/user.dart';
 import 'package:socceirb/screens/SignUp/signup_screen.dart';
 import 'package:socceirb/services/authentication.dart';
 
@@ -23,17 +24,27 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
-    FirebaseAuthException? error;
+    auth.FirebaseAuthException? error;
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     final authService = Provider.of<AuthenticationService>(context);
+    User myAppUser;
 
     _signin(String email, String password) async {
-      if (await context
+      User appUser = await context
           .read<AuthenticationService>()
-          .signIn(email, password, context)) {
-        Navigator.pushNamed(context, AppNavigationBottomBar().routeName);
+          .signIn(email, password, context);
+      if (appUser != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => AppNavigationBottomBar(
+              myAppUser: appUser,
+            ),
+          ),
+        );
       }
+      return appUser;
     }
 
     return SafeArea(
@@ -90,7 +101,13 @@ class _SigninScreenState extends State<SigninScreen> {
                   text: "Connexion",
                   press: () => {
                     //context.read<AuthenticationService>().setTrue(),
-                    _signin(emailController.text, passwordController.text),
+                    _signin(emailController.text, passwordController.text)
+                        .then((value) => {
+                              myAppUser = value,
+                              print("MY APP USER =======================> " +
+                                  myAppUser.uid.toString())
+                            }),
+
                     //setState(() {}),
                   },
                 ),

@@ -1,12 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:socceirb/app_navigation_bottom_bar.dart';
 import 'package:socceirb/components/default_button.dart';
-import 'package:socceirb/components/round_button.dart';
-import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
 import 'package:socceirb/services/authentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class Home extends StatefulWidget {
   final String routeName = "/home";
@@ -19,7 +18,6 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  int ctr = 0;
   @override
   Widget build(BuildContext context) {
     final authService = context.watch<AuthenticationService>().firebaseAuth;
@@ -32,17 +30,7 @@ class HomeState extends State<Home> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              if (myuser != null) Text("${myuser.email}"),
-              Text("home page $ctr"),
-              RoundButton(
-                color: Colors.red,
-                icon: const Icon(Icons.add),
-                press: () => {
-                  setState(() {
-                    ctr++;
-                  })
-                },
-              ),
+              Text("home page"),
               DefaultButton(
                 text: "Sign out",
                 press: () => {

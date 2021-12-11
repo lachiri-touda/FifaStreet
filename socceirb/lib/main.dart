@@ -1,19 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:socceirb/constants.dart';
 import 'package:socceirb/routes.dart';
-import 'package:socceirb/screens/Home/home_screen.dart';
-import 'package:socceirb/screens/Map/map_screen.dart';
-import 'package:socceirb/screens/NewMatch/match_screen.dart';
-import 'package:socceirb/screens/Profile/profile_screen.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
-import 'package:socceirb/screens/SignUp/signup_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:socceirb/services/authentication.dart';
 import 'package:socceirb/themes.dart';
 import 'package:socceirb/wrapper.dart';
-import 'app_navigation_bottom_bar.dart';
+import 'package:socceirb/screens/Profile/components/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +18,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => AuthenticationService(),
         ),
-        ChangeNotifierProvider(create: (_) => UserData()),
+        ChangeNotifierProvider(create: (_) => User()),
         ChangeNotifierProvider(create: (_) => HomePageAccess()),
       ],
       child: const MyApp(),
@@ -48,9 +41,8 @@ class _MyAppState extends State<MyApp> {
         inputDecorationTheme: inputDecorationTheme(),
       ),
       debugShowCheckedModeBanner: false,
-      home: Wrapper(),
+      home: const Wrapper(),
       routes: routes,
-      //initialRoute: const Home().routeName,
     );
   }
 }

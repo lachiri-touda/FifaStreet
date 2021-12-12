@@ -8,6 +8,7 @@ class User with ChangeNotifier {
   String? address;
   String? password;
   String? position;
+  String? profilePic;
 
   User({
     this.uid,
@@ -17,6 +18,7 @@ class User with ChangeNotifier {
     this.password,
     this.address,
     this.position,
+    this.profilePic,
   });
 
   void setValue(
@@ -29,6 +31,7 @@ class User with ChangeNotifier {
     if (info == "Address") user.address = newValue;
     if (info == "Poste de jeu") user.position = newValue;
     if (info == "Password") user.password = newValue;
+    if (info == "Profile Picture") user.profilePic = newValue;
     //print(user.name);
 
     notifyListeners();

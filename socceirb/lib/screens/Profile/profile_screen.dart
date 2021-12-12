@@ -35,6 +35,7 @@ class _ProfileState extends State<Profile> {
     getData("phone");
     getData("poste");
     getData("address");
+    getData("profilePic");
   }
 
   Future<String?> getData(String userData) async {
@@ -87,7 +88,15 @@ class _ProfileState extends State<Profile> {
                     newValue: data["Poste de jeu"],
                     user: widget.myAppUser,
                   )
-            }
+            },
+          if (userData == "profilePic")
+            {
+              context.read<User>().setValue(
+                    info: "Profile Picture",
+                    newValue: data["Profile Picture"],
+                    user: widget.myAppUser,
+                  )
+            },
         });
   }
 
@@ -100,7 +109,7 @@ class _ProfileState extends State<Profile> {
           child: Center(
             child: Column(
               children: [
-                const ProfilePicture(),
+                ProfilePicture(myAppUser: widget.myAppUser),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.1,
                 ),

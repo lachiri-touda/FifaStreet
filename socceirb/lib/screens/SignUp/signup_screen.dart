@@ -28,7 +28,6 @@ class _SignupScreenState extends State<SignupScreen> {
     //final authService = Provider.of<AuthenticationService>(context);
     User myAppUser;
     Future<void> addUser(String email, String password, User myAppUser) {
-      //print("USER FROM ADDUSER ======================= " + myAppUser.uid);
       return users
           .doc(myAppUser.uid)
           .set({
@@ -37,7 +36,8 @@ class _SignupScreenState extends State<SignupScreen> {
             'Poste de jeu': '',
             'Address': '',
             'Phone Number': '',
-            'Name': ''
+            'Name': '',
+            'Profile Picture': '',
           })
           .then((value) => {})
           .catchError((error) => print("Failed to add user: $error"));
@@ -119,8 +119,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                     setState(() => myAppUser = value),
                                     addUser(emailController.text,
                                         passwordController.text, myAppUser),
-                                    print("USER ======================= " +
-                                        myAppUser.uid!)
                                   }),
 
                           //addUser(emailController.text, passwordController.text)

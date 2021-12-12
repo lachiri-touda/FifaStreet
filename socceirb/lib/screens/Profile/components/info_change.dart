@@ -163,6 +163,13 @@ class _InfoChangeState extends State<InfoChange> {
                 TextField(
                   cursorHeight: 27,
                   controller: controller,
+                  keyboardType: widget.infoType == 'Phone Number'
+                      ? TextInputType.number
+                      : widget.infoType == 'Email address'
+                          ? TextInputType.emailAddress
+                          : widget.infoType == 'Password'
+                              ? TextInputType.visiblePassword
+                              : TextInputType.text,
                   decoration: inputDecoration(),
                 ),
                 SizedBox(

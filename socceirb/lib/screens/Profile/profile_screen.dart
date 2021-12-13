@@ -1,6 +1,6 @@
 // ignore_for_fionst_literals_to_create_immutables, prefer_const_constructors
 
-// ignore_for_file: implementation_imports
+// ignore_for_file: implementation_imports, prefer_const_constructors
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/Profile/components/user.dart';
+import 'package:socceirb/screens/SignIn/signin_screen.dart';
+import 'package:socceirb/services/authentication.dart';
 import 'components/info_change.dart';
 import 'components/profile_picture.dart';
 import 'components/user_info.dart';
@@ -109,6 +111,21 @@ class _ProfileState extends State<Profile> {
           child: Center(
             child: Column(
               children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: InkWell(
+                      onTap: () => {
+                            context
+                                .read<AuthenticationService>()
+                                .signOut()
+                                .then,
+                            Navigator.pushNamed(
+                                context, const SigninScreen().routeName),
+                          },
+                      child: Container(
+                          padding: EdgeInsets.only(right: 10, top: 10),
+                          child: Icon(Icons.exit_to_app))),
+                ),
                 ProfilePicture(myAppUser: widget.myAppUser),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.1,

@@ -67,7 +67,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
         shape: BoxShape.circle,
         color: Colors.purple,
       ),
-      margin: EdgeInsets.only(top: SizeConfig.screenHeight * 0.12),
+      margin: EdgeInsets.only(top: SizeConfig.screenHeight * 0.09),
       child: Stack(
         children: [
           circleArea(),

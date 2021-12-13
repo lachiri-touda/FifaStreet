@@ -8,4 +8,3 @@ class SizeConfig {
     screenWidth = MediaQuery.of(context).size.width;
   }
 }
-//

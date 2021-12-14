@@ -123,8 +123,17 @@ class _ProfileState extends State<Profile> {
                                 context, const SigninScreen().routeName),
                           },
                       child: Container(
-                          padding: EdgeInsets.only(right: 10, top: 10),
-                          child: Icon(Icons.exit_to_app))),
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.black38,
+                          ),
+                          margin: EdgeInsets.only(right: 10, top: 10),
+                          child: Icon(
+                            Icons.exit_to_app,
+                            color: Colors.white,
+                          ))),
                 ),
                 ProfilePicture(myAppUser: widget.myAppUser),
                 SizedBox(

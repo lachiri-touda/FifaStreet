@@ -11,7 +11,7 @@ import 'package:socceirb/screens/SignUp/signup_screen.dart';
 final Map<String, WidgetBuilder> routes = {
   const Home().routeName: (context) => const Home(),
   //const Profile().routeName: (context) => const Profile(),
-  const MapScreen().routeName: (context) => const MapScreen(),
+  MapScreen().routeName: (context) => MapScreen(),
   const MatchScreen().routeName: (context) => const MatchScreen(),
   //InfoChange().routeName: (context) => InfoChange(),
   const SigninScreen().routeName: (context) => const SigninScreen(),

@@ -34,7 +34,7 @@ class _AppNavigationBottomBarState extends State<AppNavigationBottomBar> {
     SizeConfig().init(context);
     final screenBar = [
       const Home(),
-      const MapScreen(),
+      MapScreen(),
       const MatchScreen(),
       Profile(
         myAppUser: widget.myAppUser!,

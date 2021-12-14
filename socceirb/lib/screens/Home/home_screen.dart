@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -31,13 +31,6 @@ class HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text("home page"),
-              DefaultButton(
-                text: "Sign out",
-                press: () => {
-                  context.read<AuthenticationService>().signOut().then,
-                  Navigator.pushNamed(context, const SigninScreen().routeName),
-                },
-              ),
             ],
           ),
         ),

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:socceirb/app_navigation_bottom_bar.dart';
 import 'package:socceirb/components/default_button.dart';
+import 'package:socceirb/components/default_textfield.dart';
 import 'package:socceirb/components/round_button.dart';
 import 'package:socceirb/components/show_dialog.dart';
 import 'package:socceirb/constants.dart';
@@ -72,30 +73,30 @@ class _SigninScreenState extends State<SigninScreen> {
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.1,
                 ),
-                TextField(
+                MyTextField(
                   controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  cursorHeight: 27,
-                  decoration: const InputDecoration(
-                    labelText: "Email",
-                  ),
-                  //onChanged: (value) => {},
-                  //onFieldSubmitted: (newValue) => {setState(() {})},
+                  label: 'Email',
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
+                MyTextField(
                   controller: passwordController,
-                  obscureText: true,
-                  cursorHeight: 27,
-                  decoration: const InputDecoration(
-                    labelText: "Password",
-                  ),
-                  //onFieldSubmitted: (newValue) => {setState(() {})},
+                  label: 'Password',
                 ),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.12,
+                ),
+                DefaultButton(
+                  text: "Direct Test Access",
+                  press: () => {
+                    //context.read<AuthenticationService>().setTrue(),
+                    _signin("zzuser@gmail.com", "azerty").then((value) => {
+                          myAppUser = value,
+                        }),
+
+                    //setState(() {}),
+                  },
+                ),
+                SizedBox(
+                  height: 30,
                 ),
                 DefaultButton(
                   text: "Connexion",

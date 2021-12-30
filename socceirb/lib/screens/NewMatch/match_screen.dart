@@ -1,19 +1,19 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable
 
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/components/default_textfield.dart';
 import 'package:socceirb/constants.dart';
-import 'package:google_place/google_place.dart';
 import 'package:http/http.dart' as http;
+import 'package:socceirb/screens/MatchsList/matchs_list.dart';
+import 'components/addMatch.dart';
 
 class MatchScreen extends StatefulWidget {
-  MatchScreen({Key? key}) : super(key: key);
+  const MatchScreen({Key? key}) : super(key: key);
   final String routeName = "/match";
   @override
   State<MatchScreen> createState() => _MatchScreenState();
@@ -24,7 +24,6 @@ class _MatchScreenState extends State<MatchScreen> {
   TextEditingController matchPosController = TextEditingController();
   TextEditingController matchTimeController = TextEditingController();
   TextEditingController matchPlayersController = TextEditingController();
-
   CollectionReference matchs = FirebaseFirestore.instance.collection('matchs');
   final myAppUser = auth.FirebaseAuth.instance.currentUser;
 
@@ -42,23 +41,6 @@ class _MatchScreenState extends State<MatchScreen> {
     } else {
       print('Failed to load predictions');
     }
-  }
-
-  Future<void> addMatch(
-      {required String uidAdmin,
-      required String position,
-      required String time,
-      String? playersNum}) {
-    return matchs
-        .doc(myAppUser!.uid)
-        .set({
-          'Admin': uidAdmin,
-          'Position': position,
-          'Time': time,
-          'Players': playersNum,
-        })
-        .then((value) => {})
-        .catchError((error) => print("Failed to create match: $error"));
   }
 
   @override
@@ -105,7 +87,12 @@ class _MatchScreenState extends State<MatchScreen> {
                       context.read<SuggestPlaces>().setTrue(),
                     }
                 },
-                onTap: () => {},
+                onTap: () => {
+                  if (_placeList.isNotEmpty)
+                    {
+                      context.read<SuggestPlaces>().setTrue(),
+                    }
+                },
                 decoration: const InputDecoration(
                   labelText: "Location",
                 ),
@@ -122,14 +109,23 @@ class _MatchScreenState extends State<MatchScreen> {
                     ),
                     DefaultButton(
                         text: "Create Match",
-                        press: () => {
+                        press: () async => {
                               addMatch(
                                 uidAdmin: myAppUser!.uid,
                                 position: matchPosController.text,
                                 time: matchTimeController.text,
                                 playersNum: matchPlayersController.text,
+                                matchs: matchs,
                               ),
-                              print(matchPosController.text)
+                            }),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    DefaultButton(
+                        text: "Matchs List",
+                        press: () => {
+                              Navigator.pushNamed(
+                                  context, MatchsList().routeName),
                             }),
                     SizedBox(
                       height: 20,

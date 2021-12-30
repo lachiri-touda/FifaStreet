@@ -64,8 +64,8 @@ class _SigninScreenState extends State<SigninScreen> {
                   child: Text(
                     "Sign in",
                     style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w800,
                       color: Colors.purple,
                     ),
                   ),

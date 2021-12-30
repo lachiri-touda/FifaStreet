@@ -74,9 +74,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const Center(
                   child: Text(
-                    "Create an account",
+                    "Create new account",
                     style: TextStyle(
-                      fontSize: 28,
+                      fontSize: 30,
                       fontWeight: FontWeight.w700,
                       color: Colors.purple,
                     ),

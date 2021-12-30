@@ -118,7 +118,7 @@ class _InfoChangeState extends State<InfoChange> {
                             "Profile",
                             style: TextStyle(
                               color: Colors.purple,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w500,
                               fontSize: 16,
                             ),
                           ),
@@ -134,8 +134,8 @@ class _InfoChangeState extends State<InfoChange> {
                     widget.infoType,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 19,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20,
                     ),
                   ),
                 ),
@@ -201,8 +201,8 @@ class _InfoChangeState extends State<InfoChange> {
                         "Update my ${widget.infoType}",
                         style: TextStyle(
                           color: Colors.purple,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17,
                         ),
                       ),
                     ),

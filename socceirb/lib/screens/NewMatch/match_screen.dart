@@ -109,7 +109,7 @@ class _MatchScreenState extends State<MatchScreen> {
                     ),
                     DefaultButton(
                         text: "Create Match",
-                        press: () async => {
+                        press: () => {
                               addMatch(
                                 uidAdmin: myAppUser!.uid,
                                 position: matchPosController.text,

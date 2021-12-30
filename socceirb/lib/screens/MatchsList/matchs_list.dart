@@ -54,7 +54,13 @@ class _MatchsListState extends State<MatchsList> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text("Location: ${data['Location']}"),
+                        title: Text(
+                          "Location: ${data['Location']}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
                         subtitle: Text("Time: ${data['Time']}"),
                         onTap: () => {},
                       ),

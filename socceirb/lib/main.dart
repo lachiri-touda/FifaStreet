@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socceirb/routes.dart';
-import 'package:socceirb/screens/NewMatch/match_screen.dart';
+import 'package:socceirb/screens/Matchs/MatchsList/match_joined.dart';
+import 'package:socceirb/screens/Matchs/NewMatch/match_screen.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:socceirb/services/authentication.dart';
@@ -20,6 +21,7 @@ void main() async {
           create: (_) => AuthenticationService(),
         ),
         ChangeNotifierProvider(create: (_) => User()),
+        // ChangeNotifierProvider(create: (_) => MatchsListTwo()),
         ChangeNotifierProvider(create: (_) => HomePageAccess()),
         ChangeNotifierProvider(create: (_) => SuggestPlaces()),
       ],

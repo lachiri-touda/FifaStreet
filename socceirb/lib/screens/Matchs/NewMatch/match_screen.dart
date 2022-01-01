@@ -9,12 +9,15 @@ import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/components/default_textfield.dart';
 import 'package:socceirb/constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:socceirb/screens/MatchsList/matchs_list.dart';
+import 'package:socceirb/screens/Matchs/MatchsList/matchs_list.dart';
+import 'package:socceirb/screens/Matchs/MatchsList/user_match_list.dart';
+import 'package:socceirb/screens/Profile/components/user.dart';
 import 'components/addMatch.dart';
 
 class MatchScreen extends StatefulWidget {
-  const MatchScreen({Key? key}) : super(key: key);
+  const MatchScreen({Key? key, this.myAppUser}) : super(key: key);
   final String routeName = "/match";
+  final User? myAppUser;
   @override
   State<MatchScreen> createState() => _MatchScreenState();
 }
@@ -24,6 +27,7 @@ class _MatchScreenState extends State<MatchScreen> {
   TextEditingController matchPosController = TextEditingController();
   TextEditingController matchTimeController = TextEditingController();
   TextEditingController matchPlayersController = TextEditingController();
+  TextEditingController matchDateController = TextEditingController();
   CollectionReference matchs = FirebaseFirestore.instance.collection('matchs');
   final myAppUser = auth.FirebaseAuth.instance.currentUser;
 
@@ -57,7 +61,7 @@ class _MatchScreenState extends State<MatchScreen> {
           ),
           child: Column(
             children: [
-              SizedBox(height: 60),
+              SizedBox(height: 50),
               const Center(
                 child: Text(
                   "Create new match",
@@ -94,18 +98,35 @@ class _MatchScreenState extends State<MatchScreen> {
                     }
                 },
                 decoration: const InputDecoration(
-                  labelText: "Location",
-                ),
+                    labelText: "Location",
+                    hintText: "Enter the match exact location address",
+                    hintStyle: TextStyle(
+                      fontSize: 14,
+                    )),
               ),
               Stack(children: <Widget>[
                 Column(
                   children: [
-                    MyTextField(controller: matchTimeController, label: "Time"),
                     MyTextField(
-                        controller: matchPlayersController,
-                        label: "Number of players"),
+                      controller: matchDateController,
+                      label: "Date",
+                      textInputType: TextInputType.datetime,
+                      hintText: "Date format: XX/XX/XXXX",
+                    ),
+                    MyTextField(
+                      controller: matchTimeController,
+                      label: "Time",
+                      textInputType: TextInputType.datetime,
+                      hintText: "Time format: XX:XX",
+                    ),
+                    MyTextField(
+                      controller: matchPlayersController,
+                      label: "Number of players",
+                      textInputType: TextInputType.number,
+                      hintText: "Enter the number of players needed",
+                    ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.12,
+                      height: SizeConfig.screenHeight * 0.07,
                     ),
                     DefaultButton(
                         text: "Create Match",
@@ -116,16 +137,30 @@ class _MatchScreenState extends State<MatchScreen> {
                                 time: matchTimeController.text,
                                 playersNum: matchPlayersController.text,
                                 matchs: matchs,
+                                date: matchDateController.text,
                               ),
+                              setState(() => {
+                                    matchPosController.text = '',
+                                    matchTimeController.text = '',
+                                    matchPlayersController.text = '',
+                                    matchDateController.text = '',
+                                    _placeList = [],
+                                  })
                             }),
                     SizedBox(
                       height: 20,
                     ),
                     DefaultButton(
-                        text: "Matchs List",
+                        text: "Matchs Created",
                         press: () => {
-                              Navigator.pushNamed(
-                                  context, MatchsList().routeName),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        UserMatchsList(
+                                          myAppUser: widget.myAppUser,
+                                        )),
+                              ),
                             }),
                     SizedBox(
                       height: 20,

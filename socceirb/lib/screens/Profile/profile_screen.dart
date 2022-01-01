@@ -31,24 +31,25 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    getData("email");
-    getData("name");
-    getData("password");
-    getData("phone");
-    getData("poste");
-    getData("address");
-    getData("profilePic");
+    getData(widget.myAppUser, "email");
+    getData(widget.myAppUser, "name");
+    getData(widget.myAppUser, "password");
+    getData(widget.myAppUser, "phone");
+    getData(widget.myAppUser, "poste");
+    getData(widget.myAppUser, "address");
+    getData(widget.myAppUser, "profilePic");
   }
 
-  Future<String?> getData(String userData) async {
-    var document = users.doc(user!.uid);
+  Future<String?> getData(User user, String userData) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    var document = users.doc(user.uid);
     document.get().then((data) => {
           if (userData == "email")
             {
               context.read<User>().setValue(
                     info: "Email address",
                     newValue: data["Email"],
-                    user: widget.myAppUser,
+                    user: user,
                   )
             },
           if (userData == "password")
@@ -56,7 +57,7 @@ class _ProfileState extends State<Profile> {
               context.read<User>().setValue(
                     info: "Password",
                     newValue: data["Password"],
-                    user: widget.myAppUser,
+                    user: user,
                   )
             },
           if (userData == "name")
@@ -64,7 +65,7 @@ class _ProfileState extends State<Profile> {
               context.read<User>().setValue(
                     info: "Name",
                     newValue: data["Name"],
-                    user: widget.myAppUser,
+                    user: user,
                   )
             },
           if (userData == "phone")
@@ -72,7 +73,7 @@ class _ProfileState extends State<Profile> {
               context.read<User>().setValue(
                     info: "Phone Number",
                     newValue: data["Phone Number"],
-                    user: widget.myAppUser,
+                    user: user,
                   )
             },
           if (userData == "address")
@@ -80,7 +81,7 @@ class _ProfileState extends State<Profile> {
               context.read<User>().setValue(
                     info: "Address",
                     newValue: data["Address"],
-                    user: widget.myAppUser,
+                    user: user,
                   )
             },
           if (userData == "poste")
@@ -88,7 +89,7 @@ class _ProfileState extends State<Profile> {
               context.read<User>().setValue(
                     info: "Poste de jeu",
                     newValue: data["Poste de jeu"],
-                    user: widget.myAppUser,
+                    user: user,
                   )
             },
           if (userData == "profilePic")
@@ -96,7 +97,7 @@ class _ProfileState extends State<Profile> {
               context.read<User>().setValue(
                     info: "Profile Picture",
                     newValue: data["Profile Picture"],
-                    user: widget.myAppUser,
+                    user: user,
                   )
             },
         });
@@ -192,7 +193,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 UserInfo(
                   label: 'Password',
-                  value: widget.myAppUser.password ?? "",
+                  value: "******",
                   press: () {
                     Navigator.push(
                       context,

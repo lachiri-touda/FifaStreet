@@ -11,7 +11,11 @@ class AuthenticationService with ChangeNotifier {
     if (user == null) {
       return null;
     }
-    return User(email: user.email, uid: user.uid);
+    return User(
+      email: user.email,
+      uid: user.uid,
+      matchsJoined: {},
+    );
   }
 
   Stream<User?>? get user =>

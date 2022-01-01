@@ -5,9 +5,13 @@ class MyTextField extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.label,
+    this.textInputType,
+    this.hintText,
   }) : super(key: key);
   final String label;
+  final TextInputType? textInputType;
   final TextEditingController controller;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +22,14 @@ class MyTextField extends StatelessWidget {
         ),
         TextField(
           controller: controller,
-          keyboardType: TextInputType.text,
+          keyboardType: textInputType ?? TextInputType.text,
           cursorHeight: 27,
           decoration: InputDecoration(
-            labelText: label,
-          ),
+              labelText: label,
+              hintText: hintText ?? '',
+              hintStyle: const TextStyle(
+                fontSize: 14,
+              )),
         ),
       ],
     );

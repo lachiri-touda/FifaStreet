@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socceirb/app_navigation_bottom_bar.dart';
 import 'package:socceirb/components/default_button.dart';
+import 'package:socceirb/components/default_textfield.dart';
 import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/Profile/components/user.dart';
 import 'package:socceirb/screens/Profile/profile_screen.dart';
@@ -85,30 +86,22 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.1,
                 ),
-                TextField(
+                MyTextField(
                   controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  cursorHeight: 27,
-                  decoration: const InputDecoration(
-                    labelText: "Email",
-                  ),
-                  //onChanged: (value) => {},
-                  //onFieldSubmitted: (newValue) => {setState(() {})},
+                  label: 'Email',
+                  hintText: "Enter your email",
+                  textInputType: TextInputType.emailAddress,
+                ),
+                MyTextField(
+                  controller: passwordController,
+                  label: 'Password',
+                  hintText: "Enter you password",
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  cursorHeight: 27,
-                  decoration: const InputDecoration(
-                    labelText: "Password",
-                  ),
-                  //onFieldSubmitted: (newValue) => {setState(() {})},
-                ),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.12,
+                  height: SizeConfig.screenHeight * 0.1,
                 ),
                 DefaultButton(
                     text: "Register",

@@ -1,10 +1,13 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:socceirb/constants.dart';
 import 'package:socceirb/routes.dart';
 import 'package:socceirb/screens/Home/home_screen.dart';
 import 'package:socceirb/screens/Map/map_screen.dart';
-import 'package:socceirb/screens/NewMatch/match_screen.dart';
+import 'package:socceirb/screens/Matchs/MatchsList/matchs_list.dart';
+import 'package:socceirb/screens/Matchs/NewMatch/match_screen.dart';
 import 'package:socceirb/screens/Profile/components/user.dart';
 import 'package:socceirb/screens/Profile/profile_screen.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
@@ -13,7 +16,7 @@ import 'package:socceirb/screens/SignUp/signup_screen.dart';
 class AppNavigationBottomBar extends StatefulWidget {
   const AppNavigationBottomBar({Key? key, required this.myAppUser})
       : super(key: key);
-  final User? myAppUser;
+  final User myAppUser;
   final String routeName = "/AppNav";
 
   @override
@@ -33,11 +36,35 @@ class _AppNavigationBottomBarState extends State<AppNavigationBottomBar> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     final screenBar = [
-      const Home(),
-      MapScreen(),
-      MatchScreen(),
+      Navigator(
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+              builder: (_) => Home(
+                    myAppUser: widget.myAppUser,
+                  ) /*MatchsList(
+                    myAppUser: widget.myAppUser,
+                  )*/
+              );
+        },
+      ),
+      Navigator(
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+              builder: (_) => MapScreen(
+                    myAppUser: widget.myAppUser,
+                  ));
+        },
+      ),
+      Navigator(
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+              builder: (_) => MatchScreen(
+                    myAppUser: widget.myAppUser,
+                  ));
+        },
+      ),
       Profile(
-        myAppUser: widget.myAppUser!,
+        myAppUser: widget.myAppUser,
       ),
     ];
     return SafeArea(
@@ -56,7 +83,6 @@ class _AppNavigationBottomBarState extends State<AppNavigationBottomBar> {
           unselectedItemColor: Colors.white,
           onTap: (index) => {
             _onItemTapped(index),
-            //Navigator.pushNamed(context, screenBar[index]),
           },
           iconSize: 30,
           items: const <BottomNavigationBarItem>[

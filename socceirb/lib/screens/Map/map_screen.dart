@@ -5,10 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:socceirb/components/default_button.dart';
-import 'package:socceirb/screens/NewMatch/components/matchs.dart';
+import 'package:socceirb/screens/Matchs/MatchDetails/match_details.dart';
+import 'package:socceirb/screens/Matchs/NewMatch/components/matchs.dart';
+import 'package:socceirb/screens/Profile/components/user.dart';
 
 class MapScreen extends StatefulWidget {
-  MapScreen({Key? key}) : super(key: key);
+  MapScreen({Key? key, required this.myAppUser}) : super(key: key);
+  final User myAppUser;
   final String routeName = "/map";
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -34,10 +37,32 @@ class _MapScreenState extends State<MapScreen> {
             snapshot.data!.docs.map((DocumentSnapshot document) {
               Map<String, dynamic> data =
                   document.data()! as Map<String, dynamic>;
+              Matchs myMatch = Matchs(
+                latitude: data['Latitude'].toString(),
+                location: data['Location'],
+                longitude: data['Longitude'].toString(),
+                time: data['Time'],
+                players: data['Players'],
+                admin: data['Admin'],
+                date: data['Date'],
+                id: document.id,
+              );
               markers.add(Marker(
-                  markerId: MarkerId('Id2'),
+                  markerId: MarkerId(document.id),
                   position: LatLng(data['Latitude'], data['Longitude']),
-                  infoWindow: InfoWindow(title: data['Location'])));
+                  infoWindow: InfoWindow(
+                    title: data['Location'],
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                            builder: (BuildContext context) => MatchDetails(
+                                  match: myMatch,
+                                  myAppUser: widget.myAppUser,
+                                )),
+                      ),
+                    },
+                  )));
               /* matchList.add(Matchs(
                   admin: uid,
                   latitude: data['Latitude'],
@@ -47,10 +72,10 @@ class _MapScreenState extends State<MapScreen> {
                   time: data['Time']));*/
             }).toList();
             if (snapshot.hasError) {
-              return Text('Something went wrong');
+              return Center(child: Text('Something went wrong'));
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Loading");
+              return Center(child: CircularProgressIndicator());
             }
             return Stack(
               children: [

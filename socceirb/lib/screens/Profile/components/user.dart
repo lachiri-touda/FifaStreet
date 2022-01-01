@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socceirb/screens/Matchs/NewMatch/components/matchs.dart';
 
 class User with ChangeNotifier {
   String? uid;
@@ -9,6 +10,7 @@ class User with ChangeNotifier {
   String? password;
   String? position;
   String? profilePic;
+  Map<String, Matchs>? matchsJoined;
 
   User({
     this.uid,
@@ -19,11 +21,11 @@ class User with ChangeNotifier {
     this.address,
     this.position,
     this.profilePic,
+    this.matchsJoined,
   });
 
   void setValue(
       {required User user, required var info, required String newValue}) {
-    //print(user.name);
     if (info == "uid") user.uid = newValue;
     if (info == "Name") user.name = newValue;
     if (info == "Phone Number") user.phone = newValue;
@@ -32,8 +34,32 @@ class User with ChangeNotifier {
     if (info == "Poste de jeu") user.position = newValue;
     if (info == "Password") user.password = newValue;
     if (info == "Profile Picture") user.profilePic = newValue;
-    //print(user.name);
+    if (info == "Matchs Joined") user.matchsJoined![newValue] = Matchs();
+    notifyListeners();
+  }
 
+  void addMatchJoined({required User user, required Matchs match}) {
+    user.matchsJoined![match.id!] = Matchs(
+      location: match.location!,
+      latitude: match.latitude!,
+      longitude: match.longitude!,
+      time: match.time!,
+      players: match.players!,
+      admin: match.admin!,
+      date: match.date!,
+      id: match.id!,
+    );
+    notifyListeners();
+  }
+
+  void setMatchsJoined(
+      {required User user, required Map<String, Matchs> newValue}) {
+    user.matchsJoined = newValue;
+    notifyListeners();
+  }
+
+  void removeMatchJoined({required User user, required String matchId}) {
+    user.matchsJoined!.remove(matchId);
     notifyListeners();
   }
 }

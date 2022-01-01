@@ -62,7 +62,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 const Center(
                   child: Text(
-                    "Sign in",
+                    "Connexion",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w800,
@@ -76,13 +76,16 @@ class _SigninScreenState extends State<SigninScreen> {
                 MyTextField(
                   controller: emailController,
                   label: 'Email',
+                  hintText: "Enter your email",
+                  textInputType: TextInputType.emailAddress,
                 ),
                 MyTextField(
                   controller: passwordController,
                   label: 'Password',
+                  hintText: "Enter you password",
                 ),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.12,
+                  height: SizeConfig.screenHeight * 0.1,
                 ),
                 DefaultButton(
                   text: "Direct Test Access",
@@ -99,17 +102,12 @@ class _SigninScreenState extends State<SigninScreen> {
                   height: 30,
                 ),
                 DefaultButton(
-                  text: "Connexion",
+                  text: "Sign In",
                   press: () => {
-                    //context.read<AuthenticationService>().setTrue(),
                     _signin(emailController.text, passwordController.text)
                         .then((value) => {
                               myAppUser = value,
-                              print("MY APP USER =======================> " +
-                                  myAppUser.uid.toString())
                             }),
-
-                    //setState(() {}),
                   },
                 ),
                 SizedBox(

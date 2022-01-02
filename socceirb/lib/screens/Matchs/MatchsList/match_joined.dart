@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_null_comparison
 
 import 'dart:async';
 
@@ -35,6 +35,8 @@ class _MatchsListState extends State<MatchsJoined> {
     Set<Matchs> matchsList = {};
     final Stream<QuerySnapshot> matchsJoinedStream =
         FirebaseFirestore.instance.collection('matchs_joined').snapshots();
+    List<String> matchsJoinedList =
+        widget.myAppUser.matchsJoined!.keys.toList();
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
         stream: matchsJoinedStream,
@@ -50,34 +52,37 @@ class _MatchsListState extends State<MatchsJoined> {
               Map<String, dynamic> data =
                   document.data()! as Map<String, dynamic>;
 
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        "Location: ${widget.myAppUser.matchsJoined![data['MatchId']]!.location}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
+              return matchsJoinedList.contains(data['MatchId']) == true
+                  ? SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(
+                              "Location: ${widget.myAppUser.matchsJoined![data['MatchId']]!.location}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Text(
+                                "Date: ${widget.myAppUser.matchsJoined![data['MatchId']]!.date} at ${widget.myAppUser.matchsJoined![data['MatchId']]!.time}"),
+                            onTap: () => {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        MatchDetails(
+                                          match: widget.myAppUser
+                                              .matchsJoined![data['MatchId']]!,
+                                          myAppUser: widget.myAppUser,
+                                        )),
+                              ),
+                            },
+                          ),
+                        ],
                       ),
-                      subtitle: Text(
-                          "Date: ${widget.myAppUser.matchsJoined![data['MatchId']]!.date} at ${widget.myAppUser.matchsJoined![data['MatchId']]!.time}"),
-                      onTap: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                              builder: (BuildContext context) => MatchDetails(
-                                    match: widget.myAppUser
-                                        .matchsJoined![data['MatchId']]!,
-                                    myAppUser: widget.myAppUser,
-                                  )),
-                        ),
-                      },
-                    ),
-                  ],
-                ),
-              );
+                    )
+                  : Container();
             }).toList(),
           );
         },

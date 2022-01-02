@@ -48,50 +48,54 @@ class _MatchsListState extends State<MatchsList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
-          return ListView(
-            //padding: EdgeInsets.only(top: 10),
-            children: snapshot.data!.docs.map((DocumentSnapshot document) {
-              Map<String, dynamic> data =
-                  document.data()! as Map<String, dynamic>;
-              Matchs myMatch = Matchs(
-                latitude: data['Latitude'].toString(),
-                location: data['Location'],
-                longitude: data['Longitude'].toString(),
-                time: data['Time'],
-                players: data['Players'],
-                admin: data['Admin'],
-                date: data['Date'],
-                id: document.id,
-              );
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        "Location: ${myMatch.location}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
+          return snapshot.data != null
+              ? ListView(
+                  //padding: EdgeInsets.only(top: 10),
+                  children:
+                      snapshot.data!.docs.map((DocumentSnapshot document) {
+                    Map<String, dynamic> data =
+                        document.data()! as Map<String, dynamic>;
+                    Matchs myMatch = Matchs(
+                      latitude: data['Latitude'].toString(),
+                      location: data['Location'],
+                      longitude: data['Longitude'].toString(),
+                      time: data['Time'],
+                      players: data['Players'],
+                      admin: data['Admin'],
+                      date: data['Date'],
+                      id: document.id,
+                    );
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(
+                              "Location: ${myMatch.location}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Text(
+                                "Date: ${data['Date']} at ${data['Time']}"),
+                            onTap: () => {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        MatchDetails(
+                                          match: myMatch,
+                                          myAppUser: widget.myAppUser!,
+                                        )),
+                              ),
+                            },
+                          ),
+                        ],
                       ),
-                      subtitle:
-                          Text("Date: ${data['Date']} at ${data['Time']}"),
-                      onTap: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                              builder: (BuildContext context) => MatchDetails(
-                                    match: myMatch,
-                                    myAppUser: widget.myAppUser!,
-                                  )),
-                        ),
-                      },
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          );
+                    );
+                  }).toList(),
+                )
+              : Container();
         },
       ),
     );

@@ -37,10 +37,17 @@ class HomeState extends State<Home> {
     List<String> matchsJoinedIds = [];
     Map<String, Matchs> map = {};
     await document.get().then((data) => {
-          for (var elm in data['Matchs joined'])
+          if (data['Matchs joined'].length == 0)
             {
-              matchsJoinedIds.add(elm),
-            },
+              matchsJoinedIds.add(''),
+            }
+          else
+            {
+              for (var elm in data['Matchs joined'])
+                {
+                  matchsJoinedIds.add(elm),
+                },
+            }
         });
     for (var match in matchsJoinedIds) {
       var document = matchs.doc(match);
@@ -72,7 +79,7 @@ class HomeState extends State<Home> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.purple,
-          flexibleSpace: Stack(children: const [
+          flexibleSpace: Stack(children: [
             Center(
                 child: Text(
               "Matchs List",

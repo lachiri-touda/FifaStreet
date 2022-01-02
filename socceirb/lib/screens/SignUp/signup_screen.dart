@@ -39,6 +39,7 @@ class _SignupScreenState extends State<SignupScreen> {
             'Phone Number': '',
             'Name': '',
             'Profile Picture': '',
+            'Matchs joined': '',
           })
           .then((value) => {})
           .catchError((error) => print("Failed to add user: $error"));

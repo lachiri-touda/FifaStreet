@@ -105,6 +105,13 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    getData(widget.myAppUser, "email");
+    getData(widget.myAppUser, "name");
+    getData(widget.myAppUser, "password");
+    getData(widget.myAppUser, "phone");
+    getData(widget.myAppUser, "poste");
+    getData(widget.myAppUser, "address");
+    getData(widget.myAppUser, "profilePic");
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SafeArea(

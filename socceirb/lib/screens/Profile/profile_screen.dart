@@ -1,6 +1,6 @@
 // ignore_for_fionst_literals_to_create_immutables, prefer_const_constructors
 
-// ignore_for_file: implementation_imports, prefer_const_constructors
+// ignore_for_file: implementation_imports, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -113,147 +113,194 @@ class _ProfileState extends State<Profile> {
     getData(widget.myAppUser, "address");
     getData(widget.myAppUser, "profilePic");
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: InkWell(
-                      onTap: () => {
-                            context
-                                .read<AuthenticationService>()
-                                .signOut()
-                                .then,
-                            Navigator.pushNamed(
-                                context, const SigninScreen().routeName),
-                          },
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.black38,
-                          ),
-                          margin: EdgeInsets.only(right: 10, top: 10),
-                          child: Icon(
-                            Icons.exit_to_app,
-                            color: Colors.white,
-                          ))),
+      backgroundColor: kGoldenColor, //Colors.grey[200],
+      body: Column(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Container(
+              decoration: fadeColorDecoration(),
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      logOut(context),
+                      ProfilePicture(myAppUser: widget.myAppUser),
+                      SizedBox(height: 10),
+                      userName(),
+                    ],
+                  ),
                 ),
-                ProfilePicture(myAppUser: widget.myAppUser),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.1,
-                ),
-                UserInfo(
-                  label: 'Name',
-                  value: widget.myAppUser.name ?? "",
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => InfoChange(
-                          infoType: 'Name',
-                          myAppUser: widget.myAppUser,
-                          uid: widget.myAppUser.uid!,
-                          userData: widget.myAppUser.name ?? "",
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                UserInfo(
-                  label: 'Phone Number',
-                  value: widget.myAppUser.phone ?? "",
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => InfoChange(
-                          infoType: 'Phone Number',
-                          myAppUser: widget.myAppUser,
-                          uid: widget.myAppUser.uid!,
-                          userData: widget.myAppUser.phone ?? "",
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                UserInfo(
-                  label: 'Email address',
-                  value: widget.myAppUser.email ?? "",
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => InfoChange(
-                          infoType: 'Email address',
-                          myAppUser: widget.myAppUser,
-                          uid: widget.myAppUser.uid!,
-                          userData: widget.myAppUser.email ?? "",
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                UserInfo(
-                  label: 'Password',
-                  value: "******",
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => InfoChange(
-                          infoType: 'Password',
-                          myAppUser: widget.myAppUser,
-                          uid: widget.myAppUser.uid!,
-                          userData: widget.myAppUser.password ?? "",
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                UserInfo(
-                  label: 'Address',
-                  value: widget.myAppUser.address ?? "",
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => InfoChange(
-                          infoType: 'Address',
-                          myAppUser: widget.myAppUser,
-                          uid: widget.myAppUser.uid!,
-                          userData: widget.myAppUser.address ?? "",
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                UserInfo(
-                  label: 'Poste de jeu',
-                  value: widget.myAppUser.position ?? "",
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => InfoChange(
-                          infoType: 'Poste de jeu',
-                          myAppUser: widget.myAppUser,
-                          uid: widget.myAppUser.uid!,
-                          userData: widget.myAppUser.position ?? "",
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          Expanded(
+            flex: 5,
+            child: userAllData(context),
+          ),
+        ],
       ),
+    );
+  }
+
+  Text userName() {
+    return Text(
+      widget.myAppUser.name ?? "",
+      style: TextStyle(
+        color: kGoldenColor,
+        fontSize: 30,
+        fontWeight: FontWeight.w800,
+      ),
+    );
+  }
+
+  BoxDecoration fadeColorDecoration() {
+    return BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [0.1, 0.2, 0.9],
+        colors: [kBaseColor, kFadedBaseColor, kBaseColor],
+      ),
+      borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+    );
+  }
+
+  SingleChildScrollView userAllData(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: SizeConfig.screenHeight * 0.05,
+          ),
+          UserInfo(
+            label: 'Name',
+            value: widget.myAppUser.name ?? "",
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => InfoChange(
+                    infoType: 'Name',
+                    myAppUser: widget.myAppUser,
+                    uid: widget.myAppUser.uid!,
+                    userData: widget.myAppUser.name ?? "",
+                  ),
+                ),
+              );
+            },
+          ),
+          UserInfo(
+            label: 'Phone Number',
+            value: widget.myAppUser.phone ?? "",
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => InfoChange(
+                    infoType: 'Phone Number',
+                    myAppUser: widget.myAppUser,
+                    uid: widget.myAppUser.uid!,
+                    userData: widget.myAppUser.phone ?? "",
+                  ),
+                ),
+              );
+            },
+          ),
+          UserInfo(
+            label: 'Email address',
+            value: widget.myAppUser.email ?? "",
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => InfoChange(
+                    infoType: 'Email address',
+                    myAppUser: widget.myAppUser,
+                    uid: widget.myAppUser.uid!,
+                    userData: widget.myAppUser.email ?? "",
+                  ),
+                ),
+              );
+            },
+          ),
+          UserInfo(
+            label: 'Password',
+            value: "******",
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => InfoChange(
+                    infoType: 'Password',
+                    myAppUser: widget.myAppUser,
+                    uid: widget.myAppUser.uid!,
+                    userData: widget.myAppUser.password ?? "",
+                  ),
+                ),
+              );
+            },
+          ),
+          UserInfo(
+            label: 'Address',
+            value: widget.myAppUser.address ?? "",
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => InfoChange(
+                    infoType: 'Address',
+                    myAppUser: widget.myAppUser,
+                    uid: widget.myAppUser.uid!,
+                    userData: widget.myAppUser.address ?? "",
+                  ),
+                ),
+              );
+            },
+          ),
+          UserInfo(
+            label: 'Poste de jeu',
+            value: widget.myAppUser.position ?? "",
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => InfoChange(
+                    infoType: 'Poste de jeu',
+                    myAppUser: widget.myAppUser,
+                    uid: widget.myAppUser.uid!,
+                    userData: widget.myAppUser.position ?? "",
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Align logOut(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: InkWell(
+          onTap: () => {
+                context.read<AuthenticationService>().signOut().then,
+                Navigator.pushNamed(context, const SigninScreen().routeName),
+              },
+          child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: kGoldenColor,
+              ),
+              margin: EdgeInsets.only(right: 10, top: 10),
+              child: Icon(
+                Icons.exit_to_app_sharp,
+                color: kBaseColor,
+              ))),
     );
   }
 }

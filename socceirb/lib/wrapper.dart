@@ -7,6 +7,7 @@ import 'package:socceirb/app_navigation_bottom_bar.dart';
 import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/Profile/components/user.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
+import 'package:socceirb/screens/Welcome/welcome.dart';
 import 'package:socceirb/services/authentication.dart';
 import 'package:socceirb/user/user_auth.dart';
 
@@ -29,7 +30,7 @@ class _WrapperState extends State<Wrapper> {
             ? AppNavigationBottomBar(
                 myAppUser: snapshot.data!,
               )
-            : const SigninScreen();
+            : const WelcomeScreen();
       },
     );
   }

@@ -8,3 +8,10 @@ class SizeConfig {
     screenWidth = MediaQuery.of(context).size.width;
   }
 }
+
+Color kGoldenColor = Color(0xfffbb400);
+Color kFadedGoldenColor = Color(0xeafbb400);
+Color kBaseColor = Color(0xff221822);
+Color kFadedBaseColor = Color(0xfa211a2a);
+Color kFadedBaseColor2 = Color(0xf3211a2a);
+Color kFillColor = Color(0xff28293f);

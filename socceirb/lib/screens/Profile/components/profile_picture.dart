@@ -67,7 +67,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
         shape: BoxShape.circle,
         color: Colors.purple,
       ),
-      margin: EdgeInsets.only(top: SizeConfig.screenHeight * 0.06),
+      margin: EdgeInsets.only(top: SizeConfig.screenHeight * 0.03),
       child: Stack(
         children: [
           circleArea(),
@@ -89,11 +89,11 @@ class _ProfilePictureState extends State<ProfilePicture> {
           padding: EdgeInsets.all(2),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.red,
+            color: kGoldenColor,
           ),
           child: Icon(
             Icons.camera_alt_outlined,
-            color: Colors.white,
+            color: kBaseColor,
             size: 18,
           ),
         ),
@@ -105,7 +105,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
     var profileImage = widget.myAppUser.profilePic ?? '';
     return CircleAvatar(
       radius: SizeConfig.screenWidth * 0.15,
-      backgroundColor: Colors.red,
+      backgroundColor: kGoldenColor,
       child: CircleAvatar(
         radius: SizeConfig.screenWidth * 0.15 - 3,
         backgroundColor: Colors.transparent,

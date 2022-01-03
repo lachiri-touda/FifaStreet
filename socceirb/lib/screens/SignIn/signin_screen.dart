@@ -9,7 +9,9 @@ import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/components/default_textfield.dart';
 import 'package:socceirb/components/round_button.dart';
 import 'package:socceirb/components/show_dialog.dart';
+import 'package:socceirb/components/text_inputv2.dart';
 import 'package:socceirb/constants.dart';
+import 'package:socceirb/screens/Home/components/home_locationInput.dart';
 import 'package:socceirb/screens/Profile/components/user.dart';
 import 'package:socceirb/screens/SignUp/signup_screen.dart';
 import 'package:socceirb/services/authentication.dart';
@@ -48,46 +50,95 @@ class _SigninScreenState extends State<SigninScreen> {
       return appUser;
     }
 
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          height: SizeConfig.screenHeight,
+          width: SizeConfig.screenWidth,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0.1, 0.4, 0.8],
+              colors: [
+                kBaseColor,
+                kFadedBaseColor,
+                kBaseColor,
+              ],
             ),
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
+          child: SafeArea(
             child: Column(
               children: [
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.1,
                 ),
-                const Center(
+                Center(
                   child: Text(
                     "Connexion",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w800,
-                      color: Colors.purple,
+                      color: kGoldenColor,
                     ),
                   ),
                 ),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.1,
                 ),
-                MyTextField(
+                TextInputV2(
+                    controller: emailController,
+                    hintText: "Enter your email",
+                    icon: Icons.email),
+                SizedBox(
+                  height: 15,
+                ),
+                TextInputV2(
+                  controller: passwordController,
+                  hintText: "Enter your password",
+                  icon: Icons.vpn_key,
+                  obscure: true,
+                ),
+
+                /*MyTextField(
                   controller: emailController,
                   label: 'Email',
                   hintText: "Enter your email",
                   textInputType: TextInputType.emailAddress,
                 ),
                 MyTextField(
+                  obscure: true,
                   controller: passwordController,
                   label: 'Password',
                   hintText: "Enter you password",
-                ),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.1,
-                ),
+                ),*/
+                SizedBox(height: SizeConfig.screenHeight * 0.1),
                 DefaultButton(
+                  bgColor: kGoldenColor,
+                  textColor: kBaseColor,
+                  text: "Sign In",
+                  press: () => {
+                    _signin(emailController.text, passwordController.text)
+                        .then((value) => {
+                              myAppUser = value,
+                            }),
+                  },
+                ),
+                SizedBox(height: 20),
+                DefaultButton(
+                  bgColor: kGoldenColor,
+                  textColor: kBaseColor,
+                  text: "Create new account",
+                  press: () =>
+                      Navigator.pushNamed(context, SignupScreen().routeName),
+                ),
+                SizedBox(height: 20),
+                DefaultButton(
+                  bgColor: kGoldenColor,
+                  textColor: kBaseColor,
                   text: "Direct Test Access",
                   press: () => {
                     //context.read<AuthenticationService>().setTrue(),
@@ -97,26 +148,6 @@ class _SigninScreenState extends State<SigninScreen> {
 
                     //setState(() {}),
                   },
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                DefaultButton(
-                  text: "Sign In",
-                  press: () => {
-                    _signin(emailController.text, passwordController.text)
-                        .then((value) => {
-                              myAppUser = value,
-                            }),
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                DefaultButton(
-                  text: "Create new account",
-                  press: () =>
-                      Navigator.pushNamed(context, SignupScreen().routeName),
                 ),
               ],
             ),

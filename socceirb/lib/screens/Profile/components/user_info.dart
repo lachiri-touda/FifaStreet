@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:socceirb/constants.dart';
 
@@ -25,7 +27,7 @@ class UserInfo extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
+          color: kFadedBaseColor,
         ),
         child: Row(
           children: [
@@ -33,9 +35,9 @@ class UserInfo extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
-                  color: Colors.black,
+                  color: kGoldenColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),

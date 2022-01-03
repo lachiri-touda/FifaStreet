@@ -67,45 +67,43 @@ class _AppNavigationBottomBarState extends State<AppNavigationBottomBar> {
         myAppUser: widget.myAppUser,
       ),
     ];
-    return SafeArea(
-      child: Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: screenBar,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedIndex,
-          backgroundColor: Colors.purple,
-          showSelectedLabels: true,
-          showUnselectedLabels: false,
-          selectedItemColor: Colors.amber[800],
-          unselectedItemColor: Colors.white,
-          onTap: (index) => {
-            _onItemTapped(index),
-          },
-          iconSize: 30,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.map_outlined),
-              label: 'Map',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              label: 'New Match',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
-              label: 'Profile',
-            ),
-          ],
-        ),
-        //initialRoute: const Home().routeName,
+    return Scaffold(
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: screenBar,
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        backgroundColor: Color(0xfa211a2a),
+        showSelectedLabels: true,
+        showUnselectedLabels: false,
+        selectedItemColor: kGoldenColor,
+        unselectedItemColor: Colors.grey[500],
+        onTap: (index) => {
+          _onItemTapped(index),
+        },
+        iconSize: 30,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map_outlined),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'New Match',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
+            label: 'Profile',
+          ),
+        ],
+      ),
+      //initialRoute: const Home().routeName,
     );
   }
 }

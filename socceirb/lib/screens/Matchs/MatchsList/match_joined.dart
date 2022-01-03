@@ -38,54 +38,64 @@ class _MatchsListState extends State<MatchsJoined> {
     List<String> matchsJoinedList =
         widget.myAppUser.matchsJoined!.keys.toList();
     return Scaffold(
-      body: StreamBuilder<QuerySnapshot>(
-        stream: matchsJoinedStream,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text('Something went wrong'));
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          return ListView(
-            children: snapshot.data!.docs.map((DocumentSnapshot document) {
-              Map<String, dynamic> data =
-                  document.data()! as Map<String, dynamic>;
+      backgroundColor: Colors.grey[300],
+      body: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: matchsJoinedStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Center(child: Text('Something went wrong'));
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return ListView(
+              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data =
+                    document.data()! as Map<String, dynamic>;
 
-              return matchsJoinedList.contains(data['MatchId']) == true
-                  ? SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              "Location: ${widget.myAppUser.matchsJoined![data['MatchId']]!.location}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
+                return matchsJoinedList.contains(data['MatchId']) == true
+                    ? SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                "${widget.myAppUser.matchsJoined![data['MatchId']]!.location}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: Color(0xff221822),
+                                ),
                               ),
+                              subtitle: Text(
+                                  "Date: ${widget.myAppUser.matchsJoined![data['MatchId']]!.date} at ${widget.myAppUser.matchsJoined![data['MatchId']]!.time}"),
+                              onTap: () => {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          MatchDetails(
+                                            match:
+                                                widget.myAppUser.matchsJoined![
+                                                    data['MatchId']]!,
+                                            myAppUser: widget.myAppUser,
+                                          )),
+                                ),
+                              },
                             ),
-                            subtitle: Text(
-                                "Date: ${widget.myAppUser.matchsJoined![data['MatchId']]!.date} at ${widget.myAppUser.matchsJoined![data['MatchId']]!.time}"),
-                            onTap: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        MatchDetails(
-                                          match: widget.myAppUser
-                                              .matchsJoined![data['MatchId']]!,
-                                          myAppUser: widget.myAppUser,
-                                        )),
-                              ),
-                            },
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container();
-            }).toList(),
-          );
-        },
+                          ],
+                        ),
+                      )
+                    : Container();
+              }).toList(),
+            );
+          },
+        ),
       ),
     );
   }

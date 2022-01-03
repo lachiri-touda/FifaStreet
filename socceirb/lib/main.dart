@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(
         fontFamily: "Muli",
-        inputDecorationTheme: inputDecorationTheme(),
+        //inputDecorationTheme: inputDecorationTheme(),
       ),
       debugShowCheckedModeBanner: false,
       home: const Wrapper(),

@@ -94,6 +94,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   textInputType: TextInputType.emailAddress,
                 ),
                 MyTextField(
+                  obscure: true,
                   controller: passwordController,
                   label: 'Password',
                   hintText: "Enter you password",

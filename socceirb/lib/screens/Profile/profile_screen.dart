@@ -112,33 +112,36 @@ class _ProfileState extends State<Profile> {
     getData(widget.myAppUser, "poste");
     getData(widget.myAppUser, "address");
     getData(widget.myAppUser, "profilePic");
-    return Scaffold(
-      backgroundColor: kGoldenColor, //Colors.grey[200],
-      body: Column(
-        children: [
-          Expanded(
-            flex: 4,
-            child: Container(
-              decoration: fadeColorDecoration(),
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      logOut(context),
-                      ProfilePicture(myAppUser: widget.myAppUser),
-                      SizedBox(height: 10),
-                      userName(),
-                    ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: kGoldenColor, //Colors.grey[200],
+        body: Column(
+          children: [
+            Expanded(
+              flex: 4,
+              child: Container(
+                decoration: fadeColorDecoration(),
+                child: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        logOut(context),
+                        ProfilePicture(myAppUser: widget.myAppUser),
+                        SizedBox(height: 10),
+                        userName(),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 5,
-            child: userAllData(context),
-          ),
-        ],
+            Expanded(
+              flex: 5,
+              child: userAllData(context),
+            ),
+          ],
+        ),
       ),
     );
   }

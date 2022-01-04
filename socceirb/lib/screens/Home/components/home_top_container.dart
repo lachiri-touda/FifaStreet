@@ -30,17 +30,15 @@ class HomeTopContainer extends StatelessWidget {
               bottomRight: Radius.circular(30)),
         ),
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                HomeTopBar(),
-                SizedBox(
-                  height: 22,
-                ),
-                HomeLocationInput(locationController: locationController)
-              ],
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              //HomeTopBar(),
+              SizedBox(
+                height: 10,
+              ),
+              HomeLocationInput(locationController: locationController)
+            ],
           ),
         ),
       ),

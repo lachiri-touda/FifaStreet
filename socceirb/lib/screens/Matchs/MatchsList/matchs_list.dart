@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/Matchs/MatchDetails/match_details.dart';
 import 'package:socceirb/screens/Matchs/NewMatch/components/matchs.dart';
 import 'package:socceirb/screens/Profile/components/user.dart';
@@ -28,6 +29,7 @@ class _MatchsListState extends State<MatchsList> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Container(
+        height: SizeConfig.screenHeight,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -60,6 +62,7 @@ class _MatchsListState extends State<MatchsList> {
                         id: document.id,
                       );
                       return SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
                         child: ListTile(
                           title: Text(
                             "${myMatch.location}",

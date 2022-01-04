@@ -57,157 +57,164 @@ class _MatchScreenState extends State<MatchScreen> {
   Widget build(BuildContext context) {
     bool showSearch = context.watch<SuggestPlaces>().show;
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: SizeConfig.screenHeight,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: [0.1, 0.2, 0.9],
-              colors: [kBaseColor, kFadedBaseColor, kBaseColor],
+    return GestureDetector(
+      onTap: () => {
+        FocusManager.instance.primaryFocus?.unfocus(),
+        context.read<SuggestPlaces>().setFalse(),
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Container(
+            height: SizeConfig.screenHeight,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.1, 0.2, 0.9],
+                colors: [kBaseColor, kFadedBaseColor, kBaseColor],
+              ),
             ),
-          ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 10,
-          ),
-          child: SafeArea(
-            child: Column(
-              children: [
-                SizedBox(height: 50),
-                Center(
-                  child: Text(
-                    "Create new match",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w800,
-                      color: kGoldenColor,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 10,
+            ),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  SizedBox(height: 50),
+                  Center(
+                    child: Text(
+                      "Create new match",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w800,
+                        color: kGoldenColor,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 60),
-                Container(
-                  width: SizeConfig.screenWidth * 0.85,
-                  height: SizeConfig.screenHeight * 0.07,
-                  child: TextField(
-                    onEditingComplete: () => {
-                      context.read<SuggestPlaces>().setFalse(),
-                    },
-                    onChanged: (value) async => {
-                      await getSuggestion(matchPosController.text),
-                      if (matchPosController.text == "")
-                        {
-                          context.read<SuggestPlaces>().setFalse(),
-                        }
-                      else
-                        {
-                          context.read<SuggestPlaces>().setTrue(),
-                        }
-                    },
-                    onTap: () => {
-                      if (_placeList.isNotEmpty)
-                        {
-                          context.read<SuggestPlaces>().setTrue(),
-                        }
-                    },
-                    controller: matchPosController,
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.left,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(null),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 35,
-                        vertical: 10,
+                  SizedBox(height: 60),
+                  Container(
+                    width: SizeConfig.screenWidth * 0.85,
+                    height: SizeConfig.screenHeight * 0.07,
+                    child: TextField(
+                      onEditingComplete: () => {
+                        context.read<SuggestPlaces>().setFalse(),
+                      },
+                      onChanged: (value) async => {
+                        await getSuggestion(matchPosController.text),
+                        if (matchPosController.text == "")
+                          {
+                            context.read<SuggestPlaces>().setFalse(),
+                          }
+                        else
+                          {
+                            context.read<SuggestPlaces>().setTrue(),
+                          }
+                      },
+                      onTap: () => {
+                        if (_placeList.isNotEmpty)
+                          {
+                            context.read<SuggestPlaces>().setTrue(),
+                          }
+                      },
+                      controller: matchPosController,
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.left,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(null),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 35,
+                          vertical: 10,
+                        ),
+                        filled: true,
+                        fillColor: Color(0xff28293f),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Color(0x00ffffff)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Color(0x00ffffff)),
+                        ),
+                        hintText: "Match location ",
+                        hintStyle:
+                            TextStyle(color: Colors.grey[400], fontSize: 17),
                       ),
-                      filled: true,
-                      fillColor: Color(0xff28293f),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Color(0x00ffffff)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(color: Color(0x00ffffff)),
-                      ),
-                      hintText: "Match location ",
-                      hintStyle:
-                          TextStyle(color: Colors.grey[400], fontSize: 17),
                     ),
                   ),
-                ),
-                Stack(children: <Widget>[
-                  Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      TextInputV2(
-                        controller: matchDateController,
-                        hintText: "Date format: XX/XX/XXXX",
-                        textInputType: TextInputType.datetime,
-                      ),
-                      const SizedBox(height: 20),
-                      TextInputV2(
-                        controller: matchTimeController,
-                        hintText: "Time format: XX:XX",
-                        textInputType: TextInputType.datetime,
-                      ),
-                      const SizedBox(height: 20),
-                      TextInputV2(
-                        controller: matchPlayersController,
-                        hintText: "Number of players",
-                        textInputType: TextInputType.datetime,
-                      ),
-                      SizedBox(
-                        height: SizeConfig.screenHeight * 0.07,
-                      ),
-                      DefaultButton(
-                          bgColor: kGoldenColor,
-                          textColor: kBaseColor,
-                          text: "Create Match",
-                          press: () => {
-                                addMatch(
-                                  uidAdmin: myAppUser!.uid,
-                                  position: matchPosController.text,
-                                  time: matchTimeController.text,
-                                  playersNum: matchPlayersController.text,
-                                  matchs: matchs,
-                                  date: matchDateController.text,
-                                ),
-                                setState(() => {
-                                      matchPosController.text = '',
-                                      matchTimeController.text = '',
-                                      matchPlayersController.text = '',
-                                      matchDateController.text = '',
-                                      _placeList = [],
-                                    })
-                              }),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      DefaultButton(
-                          bgColor: kGoldenColor,
-                          textColor: kBaseColor,
-                          text: "Matchs Created",
-                          press: () => {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                      builder: (BuildContext context) =>
-                                          UserMatchsList(
-                                            myAppUser: widget.myAppUser,
-                                          )),
-                                ),
-                              }),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                  showSearch ? ShowPlaces() : Container(),
-                ]),
-              ],
+                  Stack(children: <Widget>[
+                    Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        TextInputV2(
+                          controller: matchDateController,
+                          hintText: "Date format: XX/XX/XXXX",
+                          textInputType: TextInputType.datetime,
+                        ),
+                        const SizedBox(height: 20),
+                        TextInputV2(
+                          controller: matchTimeController,
+                          hintText: "Time format: XX:XX",
+                          textInputType: TextInputType.datetime,
+                        ),
+                        const SizedBox(height: 20),
+                        TextInputV2(
+                          controller: matchPlayersController,
+                          hintText: "Number of players",
+                          textInputType: TextInputType.datetime,
+                        ),
+                        SizedBox(
+                          height: SizeConfig.screenHeight * 0.07,
+                        ),
+                        DefaultButton(
+                            bgColor: kGoldenColor,
+                            textColor: kBaseColor,
+                            text: "Create Match",
+                            press: () => {
+                                  addMatch(
+                                    uidAdmin: myAppUser!.uid,
+                                    position: matchPosController.text,
+                                    time: matchTimeController.text,
+                                    playersNum: matchPlayersController.text,
+                                    matchs: matchs,
+                                    date: matchDateController.text,
+                                  ),
+                                  setState(() => {
+                                        matchPosController.text = '',
+                                        matchTimeController.text = '',
+                                        matchPlayersController.text = '',
+                                        matchDateController.text = '',
+                                        _placeList = [],
+                                      })
+                                }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        DefaultButton(
+                            bgColor: kGoldenColor,
+                            textColor: kBaseColor,
+                            text: "Matchs Created",
+                            press: () => {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            UserMatchsList(
+                                              myAppUser: widget.myAppUser,
+                                            )),
+                                  ),
+                                }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                    showSearch ? ShowPlaces() : Container(),
+                  ]),
+                ],
+              ),
             ),
           ),
         ),

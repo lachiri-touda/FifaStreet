@@ -11,29 +11,26 @@ class HomeTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: SizeConfig.screenWidth,
-      height: SizeConfig.screenHeight * 0.06,
-      child: Align(
-        alignment: Alignment.center,
-        child: Row(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: AppLogo(),
-            ),
-            Spacer(),
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                  onPressed: () => {},
-                  icon: Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  )),
-            )
-          ],
-        ),
+    return Align(
+      alignment: Alignment.center,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: AppLogo(),
+          ),
+          Spacer(),
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+                onPressed: () => {},
+                icon: Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                )),
+          )
+        ],
       ),
     );
   }

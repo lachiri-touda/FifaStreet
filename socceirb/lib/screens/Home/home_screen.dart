@@ -89,104 +89,134 @@ class HomeState extends State<Home> {
         context.watch<AuthenticationService>().firebaseAuth.currentUser;
     TextEditingController locationController = TextEditingController();
     //SizeConfig().init(context);
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          height: SizeConfig.screenHeight,
-          width: SizeConfig.screenWidth,
-          color: Colors.grey[300],
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              HomeTopContainer(locationController: locationController),
-              Expanded(
-                flex: 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      margin: EdgeInsets.symmetric(vertical: 15),
-                      //padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                      height: SizeConfig.screenHeight * 0.04,
-                      width: SizeConfig.screenWidth * 0.3,
-                      decoration: BoxDecoration(
-                        color: currentPage == 0 ? kGoldenColor : kBaseColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20)),
-                      ),
-                      child: Center(
-                        child: InkWell(
-                          onTap: () => {
-                            setState(() => {
-                                  currentPage = 0,
-                                }),
-                            pageController.animateToPage(0,
-                                duration: Duration(milliseconds: 200),
-                                curve: Curves.ease),
-                          },
-                          child: Text(
-                            "All Matchs",
-                            style: TextStyle(
-                                color: currentPage == 0
-                                    ? Colors.black
-                                    : Colors.white),
+    return ScrollConfiguration(
+      behavior: MyBehavior(),
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          //resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            elevation: 0,
+            flexibleSpace: Container(
+                height: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: [0.1, 0.2, 0.9],
+                    colors: [kBaseColor, kFadedBaseColor, kBaseColor],
+                  ),
+                ),
+                child: SafeArea(child: HomeTopBar())),
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              height: SizeConfig.screenHeight,
+              width: SizeConfig.screenWidth,
+              color: Colors.grey[300],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  HomeTopContainer(locationController: locationController),
+                  Expanded(
+                    flex: 3,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          margin: EdgeInsets.symmetric(vertical: 15),
+                          //padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                          height: SizeConfig.screenHeight * 0.04,
+                          width: SizeConfig.screenWidth * 0.3,
+                          decoration: BoxDecoration(
+                            color: currentPage == 0 ? kGoldenColor : kBaseColor,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                bottomLeft: Radius.circular(20)),
+                          ),
+                          child: Center(
+                            child: InkWell(
+                              onTap: () => {
+                                setState(() => {
+                                      currentPage = 0,
+                                    }),
+                                pageController.animateToPage(0,
+                                    duration: Duration(milliseconds: 200),
+                                    curve: Curves.ease),
+                              },
+                              child: Text(
+                                "All Matchs",
+                                style: TextStyle(
+                                    color: currentPage == 0
+                                        ? Colors.black
+                                        : Colors.white),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      margin: EdgeInsets.symmetric(vertical: 15),
-                      height: SizeConfig.screenHeight * 0.04,
-                      width: SizeConfig.screenWidth * 0.3,
-                      decoration: BoxDecoration(
-                        color: currentPage == 1 ? kGoldenColor : kBaseColor,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20)),
-                      ),
-                      child: Center(
-                        child: InkWell(
-                          onTap: () => {
-                            setState(() => {
-                                  currentPage = 1,
-                                }),
-                            pageController.animateToPage(1,
-                                duration: Duration(milliseconds: 200),
-                                curve: Curves.ease),
-                          },
-                          child: Text(
-                            "Matchs Joined",
-                            style: TextStyle(
-                                color: currentPage == 1
-                                    ? Colors.black
-                                    : Colors.white),
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          margin: EdgeInsets.symmetric(vertical: 15),
+                          height: SizeConfig.screenHeight * 0.04,
+                          width: SizeConfig.screenWidth * 0.3,
+                          decoration: BoxDecoration(
+                            color: currentPage == 1 ? kGoldenColor : kBaseColor,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(20)),
+                          ),
+                          child: Center(
+                            child: InkWell(
+                              onTap: () => {
+                                setState(() => {
+                                      currentPage = 1,
+                                    }),
+                                pageController.animateToPage(1,
+                                    duration: Duration(milliseconds: 200),
+                                    curve: Curves.ease),
+                              },
+                              child: Text(
+                                "Matchs Joined",
+                                style: TextStyle(
+                                    color: currentPage == 1
+                                        ? Colors.black
+                                        : Colors.white),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    flex: 30,
+                    child: PageView.builder(
+                      controller: pageController,
+                      onPageChanged: (value) {
+                        setState(() {
+                          currentPage = value;
+                        });
+                      },
+                      itemCount: homePages.length,
+                      itemBuilder: (context, index) => homePages[index],
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                flex: 15,
-                child: PageView.builder(
-                  controller: pageController,
-                  onPageChanged: (value) {
-                    setState(() {
-                      currentPage = value;
-                    });
-                  },
-                  itemCount: homePages.length,
-                  itemBuilder: (context, index) => homePages[index],
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
   }
 }

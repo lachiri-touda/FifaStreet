@@ -14,6 +14,7 @@ import 'package:socceirb/screens/Matchs/MatchsList/matchs_list.dart';
 import 'package:socceirb/screens/Matchs/MatchsList/user_match_list.dart';
 import 'package:socceirb/screens/Profile/components/user.dart';
 import 'components/addMatch.dart';
+import 'package:intl/intl.dart';
 
 class MatchScreen extends StatefulWidget {
   const MatchScreen({Key? key, this.myAppUser}) : super(key: key);
@@ -56,6 +57,8 @@ class _MatchScreenState extends State<MatchScreen> {
   @override
   Widget build(BuildContext context) {
     bool showSearch = context.watch<SuggestPlaces>().show;
+    TextEditingController dateinput = TextEditingController();
+    TextEditingController timeinput = TextEditingController();
 
     return GestureDetector(
       onTap: () => {
@@ -152,12 +155,54 @@ class _MatchScreenState extends State<MatchScreen> {
                           controller: matchDateController,
                           hintText: "Date format: XX/XX/XXXX",
                           textInputType: TextInputType.datetime,
+                          readOnly: true,
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2101));
+
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('dd/MM/yyyy').format(pickedDate);
+
+                              setState(() {
+                                dateinput.text =
+                                    formattedDate; //set output date to TextField value.
+                                matchDateController.text = formattedDate;
+                              });
+                            } else {
+                              print("Date is not selected");
+                            }
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextInputV2(
                           controller: matchTimeController,
                           hintText: "Time format: XX:XX",
                           textInputType: TextInputType.datetime,
+                          readOnly: true,
+                          onTap: () async {
+                            TimeOfDay? pickedTime = await showTimePicker(
+                              initialTime: TimeOfDay.now(),
+                              context: context,
+                            );
+
+                            if (pickedTime != null) {
+                              DateTime parsedTime = DateFormat.jm()
+                                  .parse(pickedTime.format(context).toString());
+                              String formattedTime =
+                                  DateFormat('HH:mm').format(parsedTime);
+
+                              setState(() {
+                                timeinput.text = formattedTime;
+                                matchTimeController.text = formattedTime;
+                              });
+                            } else {
+                              print("Time is not selected");
+                            }
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextInputV2(

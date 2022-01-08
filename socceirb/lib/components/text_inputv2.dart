@@ -11,6 +11,8 @@ class TextInputV2 extends StatelessWidget {
     this.icon,
     this.textInputType,
     this.obscure,
+    this.onTap,
+    this.readOnly,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -18,6 +20,8 @@ class TextInputV2 extends StatelessWidget {
   final IconData? icon;
   final String hintText;
   final TextInputType? textInputType;
+  final VoidCallback? onTap;
+  final bool? readOnly;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -26,7 +30,9 @@ class TextInputV2 extends StatelessWidget {
         width: SizeConfig.screenWidth * 0.85,
         height: SizeConfig.screenHeight * 0.07,
         child: TextField(
+          readOnly: readOnly ?? false,
           controller: controller,
+          onTap: onTap ?? () => {},
           style: TextStyle(color: Colors.white),
           obscureText: obscure ?? false,
           textAlign: TextAlign.left,

@@ -88,6 +88,10 @@ class HomeState extends State<Home> {
     final myuser =
         context.watch<AuthenticationService>().firebaseAuth.currentUser;
     TextEditingController locationController = TextEditingController();
+    OutlineInputBorder border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(color: Color(0x00ffffff)),
+    );
     //SizeConfig().init(context);
     return ScrollConfiguration(
       behavior: MyBehavior(),
@@ -118,7 +122,35 @@ class HomeState extends State<Home> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  HomeTopContainer(locationController: locationController),
+                  // HomeTopContainer(locationController: locationController),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [0.1, 0.2, 0.9],
+                        colors: [kBaseColor, kFadedBaseColor, kBaseColor],
+                      ),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
+                    ),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        width: SizeConfig.screenWidth * 0.85,
+                        height: SizeConfig.screenHeight * 0.07,
+                        child: TextField(
+                          controller: locationController,
+                          style: TextStyle(color: Colors.white),
+                          obscureText: false,
+                          textAlign: TextAlign.left,
+                          decoration: textFieldDeco(border),
+                        ),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     flex: 3,
                     child: Row(
@@ -209,6 +241,26 @@ class HomeState extends State<Home> {
           ),
         ),
       ),
+    );
+  }
+
+  InputDecoration textFieldDeco(OutlineInputBorder border) {
+    return InputDecoration(
+      prefixIcon: Icon(
+        Icons.location_on_sharp,
+        color: kGoldenColor,
+        size: 20,
+      ),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 35,
+        vertical: 20,
+      ),
+      filled: true,
+      fillColor: kFillColor,
+      enabledBorder: border,
+      focusedBorder: border,
+      hintText: 'Filter by location',
+      hintStyle: TextStyle(color: Colors.grey[400], fontSize: 17),
     );
   }
 }

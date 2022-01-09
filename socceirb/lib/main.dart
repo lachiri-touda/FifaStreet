@@ -20,7 +20,8 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => AuthenticationService(),
         ),
-        ChangeNotifierProvider(create: (_) => User()),
+        ChangeNotifierProvider(
+            create: (_) => User(allMatchs: [], filterMatchs: [])),
         // ChangeNotifierProvider(create: (_) => MatchsListTwo()),
         ChangeNotifierProvider(create: (_) => HomePageAccess()),
         ChangeNotifierProvider(create: (_) => SuggestPlaces()),

@@ -8,6 +8,7 @@ import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/Home/components/home_locationInput.dart';
 import 'package:socceirb/screens/Home/components/home_top_container.dart';
 import 'package:socceirb/screens/Home/components/home_topbar.dart';
+import 'package:socceirb/screens/Matchs/MatchDetails/match_details.dart';
 import 'package:socceirb/screens/Matchs/MatchsList/match_joined.dart';
 import 'package:socceirb/screens/Matchs/MatchsList/matchs_list.dart';
 import 'package:socceirb/screens/Matchs/NewMatch/components/matchs.dart';
@@ -83,6 +84,12 @@ class HomeState extends State<Home> {
       MatchsJoined(myAppUser: widget.myAppUser)
     ];
     PageController pageController = PageController();
+    List<Matchs> searchByLocation(List<Matchs> listToFilter, String value) {
+      return listToFilter
+          .where((element) =>
+              element.location!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    }
 
     final authService = context.watch<AuthenticationService>().firebaseAuth;
     final myuser =
@@ -140,19 +147,39 @@ class HomeState extends State<Home> {
                       alignment: Alignment.topCenter,
                       child: Container(
                         width: SizeConfig.screenWidth * 0.85,
-                        height: SizeConfig.screenHeight * 0.07,
+                        height: SizeConfig.screenHeight * 0.1,
                         child: TextField(
                           controller: locationController,
                           style: TextStyle(color: Colors.white),
                           obscureText: false,
                           textAlign: TextAlign.left,
                           decoration: textFieldDeco(border),
+                          onChanged: (value) => {
+                            if (value == '')
+                              {
+                                context
+                                    .read<User>()
+                                    .initFilterMatchs(user: widget.myAppUser)
+                              }
+                            else
+                              context.read<User>().setFilterMatchs(
+                                  user: widget.myAppUser,
+                                  newValue: searchByLocation(
+                                      widget.myAppUser.allMatchs, value)),
+                          },
+                          onSubmitted: (value) {
+                            if (value == '') {
+                              context
+                                  .read<User>()
+                                  .initFilterMatchs(user: widget.myAppUser);
+                            }
+                          },
                         ),
                       ),
                     ),
                   ),
                   Expanded(
-                    flex: 3,
+                    flex: 1,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -223,7 +250,7 @@ class HomeState extends State<Home> {
                     ),
                   ),
                   Expanded(
-                    flex: 30,
+                    flex: 8,
                     child: PageView.builder(
                       controller: pageController,
                       onPageChanged: (value) {

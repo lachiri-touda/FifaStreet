@@ -15,6 +15,8 @@ class AuthenticationService with ChangeNotifier {
       email: user.email,
       uid: user.uid,
       matchsJoined: {},
+      allMatchs: [],
+      filterMatchs: [],
     );
   }
 

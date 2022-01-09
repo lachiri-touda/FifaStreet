@@ -11,6 +11,8 @@ class User with ChangeNotifier {
   String? position;
   String? profilePic;
   Map<String, Matchs>? matchsJoined;
+  List<Matchs> allMatchs;
+  List<Matchs> filterMatchs;
 
   User({
     this.uid,
@@ -22,6 +24,8 @@ class User with ChangeNotifier {
     this.position,
     this.profilePic,
     this.matchsJoined,
+    required this.allMatchs,
+    required this.filterMatchs,
   });
 
   void setValue(
@@ -61,5 +65,19 @@ class User with ChangeNotifier {
   void removeMatchJoined({required User user, required String matchId}) {
     user.matchsJoined!.remove(matchId);
     notifyListeners();
+  }
+
+  void setFilterMatchs({required User user, required List<Matchs> newValue}) {
+    user.filterMatchs = newValue;
+    notifyListeners();
+  }
+
+  void initFilterMatchs({required User user}) {
+    user.filterMatchs = user.allMatchs;
+    notifyListeners();
+  }
+
+  List<Matchs> getFilterMatchs(User user) {
+    return user.filterMatchs;
   }
 }

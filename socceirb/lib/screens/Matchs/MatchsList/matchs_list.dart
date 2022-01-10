@@ -60,6 +60,7 @@ class _MatchsListState extends State<MatchsList> {
                               admin: data['Admin'],
                               date: data['Date'],
                               id: document.id,
+                              usersJoining: {},
                             );
                             widget.myAppUser.allMatchs.add(myMatch);
                             widget.myAppUser.filterMatchs.add(myMatch);

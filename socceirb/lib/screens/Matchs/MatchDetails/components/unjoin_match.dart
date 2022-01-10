@@ -10,6 +10,9 @@ Future<void> unjoinMatch(
   CollectionReference matchsJoinedDb =
       FirebaseFirestore.instance.collection('matchs_joined');
   CollectionReference matchs = FirebaseFirestore.instance.collection('matchs');
+  matchs.doc(match.id).update({
+    'Joining Users': FieldValue.arrayRemove([user.uid])
+  });
   matchs.doc(match.id).update(
     {
       'Players': (int.parse(match.players) + 1).toString(),
@@ -22,6 +25,7 @@ Future<void> unjoinMatch(
   );
   matchsJoinedDb
       .where('MatchId', isEqualTo: match.id)
+      .where('UserId', isEqualTo: user.uid)
       .get()
       .then((value) => {
             value.docs.forEach((element) {

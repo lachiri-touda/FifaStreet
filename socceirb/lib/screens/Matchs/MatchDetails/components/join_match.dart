@@ -10,6 +10,9 @@ Future<void> joinMatch(
       FirebaseFirestore.instance.collection('matchs_joined');
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference matchs = FirebaseFirestore.instance.collection('matchs');
+  matchs.doc(match.id).update({
+    'Joining Users': FieldValue.arrayUnion([user.uid])
+  });
   matchs.doc(match.id).update(
     {
       'Players': match.players,
@@ -38,5 +41,6 @@ Future<void> joinMatch(
     admin: match.admin,
     date: match.date,
     id: match.id,
+    usersJoining: {},
   );
 }

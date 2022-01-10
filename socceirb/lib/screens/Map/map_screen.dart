@@ -41,6 +41,7 @@ class _MapScreenState extends State<MapScreen> {
           admin: data['Admin'],
           date: data['Date'],
           id: data.id,
+          usersJoining: {},
         );
         markersTmp.add(Marker(
             markerId: MarkerId(data.id),

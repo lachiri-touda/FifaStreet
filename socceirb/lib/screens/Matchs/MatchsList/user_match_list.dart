@@ -83,6 +83,7 @@ class _UserMatchsListState extends State<UserMatchsList> {
                 admin: data['Admin'],
                 date: data['Date'],
                 id: document.id,
+                usersJoining: {},
               );
               return SingleChildScrollView(
                 child: ListTile(

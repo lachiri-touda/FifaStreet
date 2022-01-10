@@ -26,6 +26,7 @@ Future<bool> addMatch(
         'Date': date,
         'Time': time,
         'Players': playersNum,
+        'Joining Users': '',
       })
       .then((doc) => {
             thisMatch = Matchs(
@@ -37,6 +38,7 @@ Future<bool> addMatch(
               admin: user.uid ?? "",
               time: time,
               players: playersNum ?? "",
+              usersJoining: {},
             ),
             user.allMatchs.add(thisMatch),
             user.filterMatchs.add(thisMatch),

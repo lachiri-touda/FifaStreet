@@ -47,7 +47,8 @@ class User with ChangeNotifier {
           location: '',
           longitude: '',
           players: '',
-          time: '');
+          time: '',
+          usersJoining: {});
     }
     notifyListeners();
   }
@@ -62,6 +63,7 @@ class User with ChangeNotifier {
       admin: match.admin,
       date: match.date,
       id: match.id,
+      usersJoining: {},
     );
     notifyListeners();
   }

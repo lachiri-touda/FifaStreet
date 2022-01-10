@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socceirb/routes.dart';
 import 'package:socceirb/screens/Matchs/MatchsList/match_joined.dart';
+import 'package:socceirb/screens/Matchs/NewMatch/components/matchs.dart';
 import 'package:socceirb/screens/Matchs/NewMatch/match_screen.dart';
 import 'package:socceirb/screens/SignIn/signin_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,7 +24,17 @@ void main() async {
         ChangeNotifierProvider(
             create: (_) =>
                 User(allMatchs: [], filterMatchs: [], matchsJoined: {})),
-        // ChangeNotifierProvider(create: (_) => MatchsListTwo()),
+        ChangeNotifierProvider(
+            create: (_) => Matchs(
+                admin: '',
+                date: '',
+                id: '',
+                latitude: '',
+                location: '',
+                longitude: '',
+                players: '',
+                time: '',
+                usersJoining: {})),
         ChangeNotifierProvider(create: (_) => HomePageAccess()),
         ChangeNotifierProvider(create: (_) => SuggestPlaces()),
       ],

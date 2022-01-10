@@ -68,6 +68,7 @@ class HomeState extends State<Home> {
                 players: data['Players'],
                 id: document.id,
                 admin: '',
+                usersJoining: {},
               )
             });
       }
@@ -158,7 +159,6 @@ class HomeState extends State<Home> {
                           onTap: () {
                             if (widget.myAppUser.filterMatchs.length <
                                 widget.myAppUser.allMatchs.length) {
-                              print("object");
                               context
                                   .read<User>()
                                   .initFilterMatchs(user: widget.myAppUser);

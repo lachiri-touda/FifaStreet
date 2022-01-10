@@ -9,6 +9,12 @@ Future<void> unjoinMatch(
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference matchsJoinedDb =
       FirebaseFirestore.instance.collection('matchs_joined');
+  CollectionReference matchs = FirebaseFirestore.instance.collection('matchs');
+  matchs.doc(match.id).update(
+    {
+      'Players': (int.parse(match.players) + 1).toString(),
+    },
+  );
   users.doc(user.uid).update(
     {
       'Matchs joined': matchIds,
@@ -23,4 +29,5 @@ Future<void> unjoinMatch(
             })
           })
       .catchError((error) => print("Failed to add user: $error"));
+  //match.players = (int.parse(match.players) + 1).toString();
 }

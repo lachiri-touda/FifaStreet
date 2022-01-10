@@ -50,106 +50,109 @@ class _SigninScreenState extends State<SigninScreen> {
       return appUser;
     }
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: SizeConfig.screenHeight,
-          width: SizeConfig.screenWidth,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: [0.1, 0.4, 0.8],
-              colors: [
-                kBaseColor,
-                kFadedBaseColor,
-                kBaseColor,
-              ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            height: SizeConfig.screenHeight,
+            width: SizeConfig.screenWidth,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.1, 0.4, 0.8],
+                colors: [
+                  kBaseColor,
+                  kFadedBaseColor,
+                  kBaseColor,
+                ],
+              ),
             ),
-          ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-          ),
-          child: SafeArea(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.1,
-                ),
-                Center(
-                  child: Text(
-                    "Connexion",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800,
-                      color: kGoldenColor,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: SizeConfig.screenHeight * 0.1,
+                  ),
+                  Center(
+                    child: Text(
+                      "Connexion",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w800,
+                        color: kGoldenColor,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.1,
-                ),
-                TextInputV2(
+                  SizedBox(
+                    height: SizeConfig.screenHeight * 0.1,
+                  ),
+                  TextInputV2(
+                      controller: emailController,
+                      hintText: "Enter your email",
+                      icon: Icons.email),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  TextInputV2(
+                    controller: passwordController,
+                    hintText: "Enter your password",
+                    icon: Icons.vpn_key,
+                    obscure: true,
+                  ),
+
+                  /*MyTextField(
                     controller: emailController,
+                    label: 'Email',
                     hintText: "Enter your email",
-                    icon: Icons.email),
-                SizedBox(
-                  height: 15,
-                ),
-                TextInputV2(
-                  controller: passwordController,
-                  hintText: "Enter your password",
-                  icon: Icons.vpn_key,
-                  obscure: true,
-                ),
+                    textInputType: TextInputType.emailAddress,
+                  ),
+                  MyTextField(
+                    obscure: true,
+                    controller: passwordController,
+                    label: 'Password',
+                    hintText: "Enter you password",
+                  ),*/
+                  SizedBox(height: SizeConfig.screenHeight * 0.1),
+                  DefaultButton(
+                    bgColor: kGoldenColor,
+                    textColor: kBaseColor,
+                    text: "Sign In",
+                    press: () => {
+                      _signin(emailController.text, passwordController.text)
+                          .then((value) => {
+                                myAppUser = value,
+                              }),
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  DefaultButton(
+                    bgColor: kGoldenColor,
+                    textColor: kBaseColor,
+                    text: "Create new account",
+                    press: () =>
+                        Navigator.pushNamed(context, SignupScreen().routeName),
+                  ),
+                  SizedBox(height: 20),
+                  DefaultButton(
+                    bgColor: kGoldenColor,
+                    textColor: kBaseColor,
+                    text: "Direct Test Access",
+                    press: () => {
+                      //context.read<AuthenticationService>().setTrue(),
+                      _signin("zzuser@gmail.com", "azerty").then((value) => {
+                            myAppUser = value,
+                          }),
 
-                /*MyTextField(
-                  controller: emailController,
-                  label: 'Email',
-                  hintText: "Enter your email",
-                  textInputType: TextInputType.emailAddress,
-                ),
-                MyTextField(
-                  obscure: true,
-                  controller: passwordController,
-                  label: 'Password',
-                  hintText: "Enter you password",
-                ),*/
-                SizedBox(height: SizeConfig.screenHeight * 0.1),
-                DefaultButton(
-                  bgColor: kGoldenColor,
-                  textColor: kBaseColor,
-                  text: "Sign In",
-                  press: () => {
-                    _signin(emailController.text, passwordController.text)
-                        .then((value) => {
-                              myAppUser = value,
-                            }),
-                  },
-                ),
-                SizedBox(height: 20),
-                DefaultButton(
-                  bgColor: kGoldenColor,
-                  textColor: kBaseColor,
-                  text: "Create new account",
-                  press: () =>
-                      Navigator.pushNamed(context, SignupScreen().routeName),
-                ),
-                SizedBox(height: 20),
-                DefaultButton(
-                  bgColor: kGoldenColor,
-                  textColor: kBaseColor,
-                  text: "Direct Test Access",
-                  press: () => {
-                    //context.read<AuthenticationService>().setTrue(),
-                    _signin("zzuser@gmail.com", "azerty").then((value) => {
-                          myAppUser = value,
-                        }),
-
-                    //setState(() {}),
-                  },
-                ),
-              ],
+                      //setState(() {}),
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

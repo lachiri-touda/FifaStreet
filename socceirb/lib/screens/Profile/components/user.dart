@@ -10,7 +10,7 @@ class User with ChangeNotifier {
   String? password;
   String? position;
   String? profilePic;
-  Map<String, Matchs>? matchsJoined;
+  Map<String, Matchs> matchsJoined;
   List<Matchs> allMatchs;
   List<Matchs> filterMatchs;
 
@@ -23,7 +23,7 @@ class User with ChangeNotifier {
     this.address,
     this.position,
     this.profilePic,
-    this.matchsJoined,
+    required this.matchsJoined,
     required this.allMatchs,
     required this.filterMatchs,
   });
@@ -38,20 +38,30 @@ class User with ChangeNotifier {
     if (info == "Poste de jeu") user.position = newValue;
     if (info == "Password") user.password = newValue;
     if (info == "Profile Picture") user.profilePic = newValue;
-    if (info == "Matchs Joined") user.matchsJoined![newValue] = Matchs();
+    if (info == "Matchs Joined") {
+      user.matchsJoined[newValue] = Matchs(
+          admin: '',
+          date: '',
+          id: '',
+          latitude: '',
+          location: '',
+          longitude: '',
+          players: '',
+          time: '');
+    }
     notifyListeners();
   }
 
   void addMatchJoined({required User user, required Matchs match}) {
-    user.matchsJoined![match.id!] = Matchs(
-      location: match.location!,
-      latitude: match.latitude!,
-      longitude: match.longitude!,
-      time: match.time!,
-      players: match.players!,
-      admin: match.admin!,
-      date: match.date!,
-      id: match.id!,
+    user.matchsJoined[match.id] = Matchs(
+      location: match.location,
+      latitude: match.latitude,
+      longitude: match.longitude,
+      time: match.time,
+      players: match.players,
+      admin: match.admin,
+      date: match.date,
+      id: match.id,
     );
     notifyListeners();
   }
@@ -63,7 +73,7 @@ class User with ChangeNotifier {
   }
 
   void removeMatchJoined({required User user, required String matchId}) {
-    user.matchsJoined!.remove(matchId);
+    user.matchsJoined.remove(matchId);
     notifyListeners();
   }
 
@@ -74,6 +84,24 @@ class User with ChangeNotifier {
 
   void initFilterMatchs({required User user}) {
     user.filterMatchs = user.allMatchs;
+    notifyListeners();
+  }
+
+  void decrementPlayersFilterMatchs(
+      {required User user, required Matchs match}) {
+    int index =
+        user.filterMatchs.indexWhere((element) => element.id == match.id);
+    user.filterMatchs[index].players =
+        (int.parse(user.filterMatchs[index].players) - 1).toString();
+    notifyListeners();
+  }
+
+  void incrementPlayersFilterMatchs(
+      {required User user, required Matchs match}) {
+    int index =
+        user.filterMatchs.indexWhere((element) => element.id == match.id);
+    user.filterMatchs[index].players =
+        (int.parse(user.filterMatchs[index].players) + 1).toString();
     notifyListeners();
   }
 

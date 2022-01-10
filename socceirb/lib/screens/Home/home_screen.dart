@@ -67,6 +67,7 @@ class HomeState extends State<Home> {
                 time: data['Time'],
                 players: data['Players'],
                 id: document.id,
+                admin: '',
               )
             });
       }
@@ -87,7 +88,7 @@ class HomeState extends State<Home> {
     List<Matchs> searchByLocation(List<Matchs> listToFilter, String value) {
       return listToFilter
           .where((element) =>
-              element.location!.toLowerCase().contains(value.toLowerCase()))
+              element.location.toLowerCase().contains(value.toLowerCase()))
           .toList();
     }
 
@@ -154,21 +155,31 @@ class HomeState extends State<Home> {
                           obscureText: false,
                           textAlign: TextAlign.left,
                           decoration: textFieldDeco(border),
-                          onChanged: (value) => {
-                            if (value == '')
-                              {
-                                context
-                                    .read<User>()
-                                    .initFilterMatchs(user: widget.myAppUser)
-                              }
-                            else
-                              context.read<User>().setFilterMatchs(
-                                  user: widget.myAppUser,
-                                  newValue: searchByLocation(
-                                      widget.myAppUser.allMatchs, value)),
+                          onTap: () {
+                            if (widget.myAppUser.filterMatchs.length <
+                                widget.myAppUser.allMatchs.length) {
+                              print("object");
+                              context
+                                  .read<User>()
+                                  .initFilterMatchs(user: widget.myAppUser);
+                            }
+                          },
+                          onChanged: (value) {
+                            if (value == '' &&
+                                widget.myAppUser.filterMatchs.length <
+                                    widget.myAppUser.allMatchs.length) {
+                              context
+                                  .read<User>()
+                                  .initFilterMatchs(user: widget.myAppUser);
+                            } else {
+                              widget.myAppUser.filterMatchs = searchByLocation(
+                                  widget.myAppUser.allMatchs, value);
+                            }
                           },
                           onSubmitted: (value) {
-                            if (value == '') {
+                            if (value == '' &&
+                                widget.myAppUser.filterMatchs.length <
+                                    widget.myAppUser.allMatchs.length) {
                               context
                                   .read<User>()
                                   .initFilterMatchs(user: widget.myAppUser);
@@ -250,7 +261,7 @@ class HomeState extends State<Home> {
                     ),
                   ),
                   Expanded(
-                    flex: 8,
+                    flex: 9,
                     child: PageView.builder(
                       controller: pageController,
                       onPageChanged: (value) {

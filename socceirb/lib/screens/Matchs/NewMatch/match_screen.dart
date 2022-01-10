@@ -17,9 +17,9 @@ import 'components/addMatch.dart';
 import 'package:intl/intl.dart';
 
 class MatchScreen extends StatefulWidget {
-  const MatchScreen({Key? key, this.myAppUser}) : super(key: key);
+  const MatchScreen({Key? key, required this.myAppUser}) : super(key: key);
   final String routeName = "/match";
-  final User? myAppUser;
+  final User myAppUser;
   @override
   State<MatchScreen> createState() => _MatchScreenState();
 }
@@ -225,6 +225,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                     playersNum: matchPlayersController.text,
                                     matchs: matchs,
                                     date: matchDateController.text,
+                                    user: widget.myAppUser,
                                   ),
                                   setState(() => {
                                         matchPosController.text = '',

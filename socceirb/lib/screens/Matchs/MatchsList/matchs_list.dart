@@ -85,6 +85,7 @@ class _MatchsListState extends State<MatchsList> {
                                             MatchDetails(
                                               match: myMatch,
                                               myAppUser: widget.myAppUser,
+                                              fromMatchsJoined: false,
                                             )),
                                   ),
                                 },
@@ -121,6 +122,7 @@ class _MatchsListState extends State<MatchsList> {
                                         match: widget
                                             .myAppUser.filterMatchs[index],
                                         myAppUser: widget.myAppUser,
+                                        fromMatchsJoined: false,
                                       )),
                             ),
                           },

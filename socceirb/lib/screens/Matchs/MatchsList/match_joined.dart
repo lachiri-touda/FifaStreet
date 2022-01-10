@@ -5,9 +5,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/src/provider.dart';
-import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/screens/Matchs/MatchDetails/match_details.dart';
 import 'package:socceirb/screens/Matchs/NewMatch/components/matchs.dart';
 import 'package:socceirb/screens/Profile/components/user.dart';
@@ -35,8 +32,7 @@ class _MatchsListState extends State<MatchsJoined> {
     Set<Matchs> matchsList = {};
     final Stream<QuerySnapshot> matchsJoinedStream =
         FirebaseFirestore.instance.collection('matchs_joined').snapshots();
-    List<String> matchsJoinedList =
-        widget.myAppUser.matchsJoined!.keys.toList();
+    List<String> matchsJoinedList = widget.myAppUser.matchsJoined.keys.toList();
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Container(
@@ -57,15 +53,17 @@ class _MatchsListState extends State<MatchsJoined> {
             return ListView(
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
-                    document.data()! as Map<String, dynamic>;
+                    document.data() as Map<String, dynamic>;
 
-                return matchsJoinedList.contains(data['MatchId']) == true
+                return data['UserId'] == widget.myAppUser.uid
                     ? SingleChildScrollView(
                         child: Column(
                           children: [
                             ListTile(
                               title: Text(
-                                "${widget.myAppUser.matchsJoined![data['MatchId']]!.location}",
+                                widget.myAppUser.matchsJoined[data['MatchId']]
+                                        ?.location ??
+                                    "Refresh the Page",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
@@ -73,17 +71,17 @@ class _MatchsListState extends State<MatchsJoined> {
                                 ),
                               ),
                               subtitle: Text(
-                                  "Date: ${widget.myAppUser.matchsJoined![data['MatchId']]!.date} at ${widget.myAppUser.matchsJoined![data['MatchId']]!.time}"),
+                                  "Date: ${widget.myAppUser.matchsJoined[data['MatchId']]?.date ?? "Refresh the Page"} at ${widget.myAppUser.matchsJoined[data['MatchId']]?.time ?? "Refresh the Page"}"),
                               onTap: () => {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute<void>(
                                       builder: (BuildContext context) =>
                                           MatchDetails(
-                                            match:
-                                                widget.myAppUser.matchsJoined![
-                                                    data['MatchId']]!,
+                                            match: widget.myAppUser
+                                                .matchsJoined[data['MatchId']]!,
                                             myAppUser: widget.myAppUser,
+                                            fromMatchsJoined: true,
                                           )),
                                 ),
                               },

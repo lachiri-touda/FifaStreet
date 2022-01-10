@@ -51,7 +51,7 @@ class UserInfo extends StatelessWidget {
                   style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 17,
-                    color: Colors.grey[500],
+                    color: Colors.white,
                     fontWeight: FontWeight.w400,
                   ),
                 ),

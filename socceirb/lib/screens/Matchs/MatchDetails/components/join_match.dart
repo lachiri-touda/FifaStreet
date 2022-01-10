@@ -9,6 +9,12 @@ Future<void> joinMatch(
   CollectionReference matchsJoinedDb =
       FirebaseFirestore.instance.collection('matchs_joined');
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference matchs = FirebaseFirestore.instance.collection('matchs');
+  matchs.doc(match.id).update(
+    {
+      'Players': match.players,
+    },
+  );
   users.doc(user.uid).update(
     {
       'Matchs joined': matchIds,
@@ -22,14 +28,15 @@ Future<void> joinMatch(
       })
       .then((value) => {})
       .catchError((error) => print("Failed to add user: $error"));
-  user.matchsJoined![match.id!] = Matchs(
-    location: match.location!,
-    latitude: match.latitude!,
-    longitude: match.longitude!,
-    time: match.time!,
-    players: match.players!,
-    admin: match.admin!,
-    date: match.date!,
-    id: match.id!,
+  //match.players = (int.parse(match.players) - 1).toString();
+  user.matchsJoined[match.id] = Matchs(
+    location: match.location,
+    latitude: match.latitude,
+    longitude: match.longitude,
+    time: match.time,
+    players: match.players,
+    admin: match.admin,
+    date: match.date,
+    id: match.id,
   );
 }

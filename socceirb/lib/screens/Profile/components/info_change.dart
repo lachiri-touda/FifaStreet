@@ -92,34 +92,36 @@ class _InfoChangeState extends State<InfoChange> {
     TextEditingController controller =
         TextEditingController(text: widget.userData);
 
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Scaffold(
-          backgroundColor: Colors.grey[200],
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            toolbarHeight: SizeConfig.screenHeight * 0.058,
-            flexibleSpace: Center(
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          backgroundColor: kBaseColor,
+          toolbarHeight: SizeConfig.screenHeight * 0.058,
+          automaticallyImplyLeading: false,
+          flexibleSpace: Center(
+            child: SafeArea(
               child: Stack(
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: InkWell(
-                      onTap: () => Navigator.pop(context),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                      width: SizeConfig.screenWidth * 0.22,
+                      child: InkWell(
+                        onTap: () => Navigator.pop(context),
                         child: Row(
-                          children: const [
+                          children: [
                             Icon(
                               Icons.arrow_back_ios,
-                              color: Colors.purple,
+                              color: kGoldenColor,
                               size: 23,
                             ),
                             Text(
                               "Profile",
                               style: TextStyle(
-                                color: Colors.purple,
+                                color: kGoldenColor,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                               ),
@@ -134,8 +136,8 @@ class _InfoChangeState extends State<InfoChange> {
                     //margin: EdgeInsets.only(right: 135),
                     child: Text(
                       widget.infoType,
-                      style: const TextStyle(
-                        color: Colors.black,
+                      style: TextStyle(
+                        color: kGoldenColor,
                         fontWeight: FontWeight.w800,
                         fontSize: 20,
                       ),
@@ -145,73 +147,73 @@ class _InfoChangeState extends State<InfoChange> {
               ),
             ),
           ),
-          body: SingleChildScrollView(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 10, top: 40, bottom: 10),
-                    child: Text(
-                      widget.infoType,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
+        ),
+        body: SingleChildScrollView(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10, top: 40, bottom: 10),
+                  child: Text(
+                    widget.infoType,
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                TextField(
+                  cursorHeight: 27,
+                  controller: controller,
+                  keyboardType: widget.infoType == 'Phone Number'
+                      ? TextInputType.number
+                      : widget.infoType == 'Email address'
+                          ? TextInputType.emailAddress
+                          : widget.infoType == 'Password'
+                              ? TextInputType.visiblePassword
+                              : TextInputType.text,
+                  decoration: inputDecoration(),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () => {
+                    context.read<User>().setValue(
+                        newValue: controller.text,
+                        info: widget.infoType,
+                        user: widget.myAppUser),
+                    updateUser(
+                        dataToUpdate: widget.infoType,
+                        newValue: controller.text),
+                    Navigator.pop(context),
+                  },
+                  child: Container(
+                    height: SizeConfig.screenHeight * 0.045,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        width: 0.08,
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Update my ${widget.infoType}",
+                        style: TextStyle(
+                          color: Colors.purple,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17,
+                        ),
                       ),
                     ),
                   ),
-                  TextField(
-                    cursorHeight: 27,
-                    controller: controller,
-                    keyboardType: widget.infoType == 'Phone Number'
-                        ? TextInputType.number
-                        : widget.infoType == 'Email address'
-                            ? TextInputType.emailAddress
-                            : widget.infoType == 'Password'
-                                ? TextInputType.visiblePassword
-                                : TextInputType.text,
-                    decoration: inputDecoration(),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(20),
-                    onTap: () => {
-                      context.read<User>().setValue(
-                          newValue: controller.text,
-                          info: widget.infoType,
-                          user: widget.myAppUser),
-                      updateUser(
-                          dataToUpdate: widget.infoType,
-                          newValue: controller.text),
-                      Navigator.pop(context),
-                    },
-                    child: Container(
-                      height: SizeConfig.screenHeight * 0.045,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          width: 0.08,
-                          color: Colors.black,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Update my ${widget.infoType}",
-                          style: TextStyle(
-                            color: Colors.purple,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
           ),
         ),

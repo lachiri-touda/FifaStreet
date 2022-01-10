@@ -54,6 +54,7 @@ class _MapScreenState extends State<MapScreen> {
                       builder: (BuildContext context) => MatchDetails(
                             match: myMatch,
                             myAppUser: widget.myAppUser,
+                            fromMatchsJoined: false,
                           )),
                 ),
               },

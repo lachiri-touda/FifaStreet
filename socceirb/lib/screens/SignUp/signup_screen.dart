@@ -62,71 +62,75 @@ class _SignupScreenState extends State<SignupScreen> {
       return appUser;
     }
 
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.1,
-                ),
-                const Center(
-                  child: Text(
-                    "Create new account",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.purple,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: SizeConfig.screenHeight * 0.1,
+                  ),
+                  const Center(
+                    child: Text(
+                      "Create new account",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.purple,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.1,
-                ),
-                MyTextField(
-                  controller: emailController,
-                  label: 'Email',
-                  hintText: "Enter your email",
-                  textInputType: TextInputType.emailAddress,
-                ),
-                MyTextField(
-                  obscure: true,
-                  controller: passwordController,
-                  label: 'Password',
-                  hintText: "Enter you password",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.1,
-                ),
-                DefaultButton(
-                    text: "Register",
-                    press: () => {
-                          _signup(emailController.text, passwordController.text)
-                              .then((value) => {
-                                    myAppUser = value,
-                                    setState(() => myAppUser = value),
-                                    addUser(emailController.text,
-                                        passwordController.text, myAppUser),
-                                  }),
+                  SizedBox(
+                    height: SizeConfig.screenHeight * 0.1,
+                  ),
+                  MyTextField(
+                    controller: emailController,
+                    label: 'Email',
+                    hintText: "Enter your email",
+                    textInputType: TextInputType.emailAddress,
+                  ),
+                  MyTextField(
+                    obscure: true,
+                    controller: passwordController,
+                    label: 'Password',
+                    hintText: "Enter you password",
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: SizeConfig.screenHeight * 0.1,
+                  ),
+                  DefaultButton(
+                      text: "Register",
+                      press: () => {
+                            _signup(emailController.text,
+                                    passwordController.text)
+                                .then((value) => {
+                                      myAppUser = value,
+                                      setState(() => myAppUser = value),
+                                      addUser(emailController.text,
+                                          passwordController.text, myAppUser),
+                                    }),
 
-                          //addUser(emailController.text, passwordController.text)
-                        }),
-                SizedBox(
-                  height: 20,
-                ),
-                DefaultButton(
-                  text: "Sign in",
-                  press: () =>
-                      Navigator.pushNamed(context, SigninScreen().routeName),
-                ),
-              ],
+                            //addUser(emailController.text, passwordController.text)
+                          }),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  DefaultButton(
+                    text: "Sign in",
+                    press: () =>
+                        Navigator.pushNamed(context, SigninScreen().routeName),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

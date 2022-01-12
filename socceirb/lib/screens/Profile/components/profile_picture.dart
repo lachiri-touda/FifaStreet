@@ -15,9 +15,11 @@ class ProfilePicture extends StatefulWidget {
   ProfilePicture({
     Key? key,
     required this.myAppUser,
+    required this.otherProfile,
   }) : super(key: key);
 
-  User myAppUser;
+  final User myAppUser;
+  final bool otherProfile;
 
   @override
   State<ProfilePicture> createState() => _ProfilePictureState();
@@ -67,13 +69,15 @@ class _ProfilePictureState extends State<ProfilePicture> {
         shape: BoxShape.circle,
         color: Colors.purple,
       ),
-      margin: EdgeInsets.only(top: SizeConfig.screenHeight * 0.03),
-      child: Stack(
-        children: [
-          circleArea(),
-          littleIcon(),
-        ],
-      ),
+      //margin: EdgeInsets.only(top: SizeConfig.screenHeight * 0.03),
+      child: !widget.otherProfile
+          ? Stack(
+              children: [
+                circleArea(),
+                littleIcon(),
+              ],
+            )
+          : circleArea(),
     );
   }
 

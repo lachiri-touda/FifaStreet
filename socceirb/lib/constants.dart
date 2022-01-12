@@ -15,3 +15,5 @@ Color kBaseColor = Color(0xff221822);
 Color kFadedBaseColor = Color(0xfa211a2a);
 Color kFadedBaseColor2 = Color(0xf3211a2a);
 Color kFillColor = Color(0xff28293f);
+Color kFadedBgYellowColor = Color(0xfffebe54);
+Color kBgYellowColor = Color(0xffffbc3b);

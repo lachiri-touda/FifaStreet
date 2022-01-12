@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socceirb/components/default_button.dart';
 import 'package:socceirb/components/default_textfield.dart';
+import 'package:socceirb/components/success_alert.dart';
 import 'package:socceirb/components/text_inputv2.dart';
 import 'package:socceirb/constants.dart';
 import 'package:http/http.dart' as http;
@@ -218,15 +219,48 @@ class _MatchScreenState extends State<MatchScreen> {
                             textColor: kBaseColor,
                             text: "Create Match",
                             press: () => {
-                                  addMatch(
-                                    uidAdmin: myAppUser!.uid,
-                                    position: matchPosController.text,
-                                    time: matchTimeController.text,
-                                    playersNum: matchPlayersController.text,
-                                    matchs: matchs,
-                                    date: matchDateController.text,
-                                    user: widget.myAppUser,
-                                  ),
+                                  if (matchPosController.text != '' &&
+                                      matchTimeController.text != '' &&
+                                      matchPlayersController.text != '' &&
+                                      matchDateController.text != '')
+                                    {
+                                      addMatch(
+                                        uidAdmin: myAppUser!.uid,
+                                        position: matchPosController.text,
+                                        time: matchTimeController.text,
+                                        playersNum: matchPlayersController.text,
+                                        matchs: matchs,
+                                        date: matchDateController.text,
+                                        user: widget.myAppUser,
+                                      )
+                                          .then((val) => {
+                                                showSuccessAlert(
+                                                  message:
+                                                      'Match Successfully Created.',
+                                                  context: context,
+                                                  image:
+                                                      "assets/images/succes.png",
+                                                )
+                                              })
+                                          .catchError((err) => {
+                                                showSuccessAlert(
+                                                  message:
+                                                      'Something went wrong.\nMake sure your internet connection and try again.',
+                                                  context: context,
+                                                  image:
+                                                      'assets/images/error.png',
+                                                )
+                                              }),
+                                    }
+                                  else
+                                    {
+                                      showSuccessAlert(
+                                        message:
+                                            'Something went wrong.\nMake sure you have filled all the fields and try again.',
+                                        context: context,
+                                        image: 'assets/images/error.png',
+                                      )
+                                    },
                                   setState(() => {
                                         matchPosController.text = '',
                                         matchTimeController.text = '',

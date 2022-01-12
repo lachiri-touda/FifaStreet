@@ -3,32 +3,36 @@
 import 'package:flutter/material.dart';
 import 'package:socceirb/constants.dart';
 
-Future<void> showMyDialog(
-    {required String title, required String message, required context}) async {
+Future<void> showSuccessAlert(
+    {required String message, required context, required String image}) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: true,
     builder: (BuildContext context) {
       return AlertDialog(
+        elevation: 2,
         backgroundColor: kBaseColor,
-        title: Text(
-          title,
-          style: TextStyle(
-            fontSize: 22,
-            color: kGoldenColor,
-            fontWeight: FontWeight.w700,
+        title: Align(
+          alignment: Alignment.topCenter,
+          child: Image.asset(
+            image,
+            height: 70,
+            width: 70,
           ),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
         content: SingleChildScrollView(
-          child: Text(
-            message,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Colors.white,
+          child: Center(
+            child: Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -39,20 +43,21 @@ Future<void> showMyDialog(
               Navigator.of(context).pop();
             },
             child: Container(
-              height: 25,
-              width: 35,
+              height: 35,
+              width: 45,
               margin: EdgeInsets.symmetric(horizontal: 35, vertical: 8),
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
               decoration: BoxDecoration(
                 color: kGoldenColor,
                 borderRadius: BorderRadius.circular(3),
               ),
-              child: Text(
-                'OK',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: kBaseColor,
+              child: Center(
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: kBaseColor,
+                  ),
                 ),
               ),
             ),

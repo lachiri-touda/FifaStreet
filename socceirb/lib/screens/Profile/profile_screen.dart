@@ -119,7 +119,7 @@ class _ProfileState extends State<Profile> {
         body: Column(
           children: [
             Expanded(
-              flex: 4,
+              flex: 13,
               child: Container(
                 decoration: fadeColorDecoration(),
                 child: SafeArea(
@@ -127,7 +127,10 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       children: [
                         logOut(context),
-                        ProfilePicture(myAppUser: widget.myAppUser),
+                        ProfilePicture(
+                          myAppUser: widget.myAppUser,
+                          otherProfile: false,
+                        ),
                         SizedBox(height: 10),
                         userName(),
                       ],
@@ -137,8 +140,8 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             Expanded(
-              flex: 5,
-              child: userAllData(context),
+              flex: 20,
+              child: Center(child: userAllData(context)),
             ),
           ],
         ),

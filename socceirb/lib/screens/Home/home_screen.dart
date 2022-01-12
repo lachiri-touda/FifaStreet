@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:socceirb/components/default_button.dart';
+import 'package:socceirb/components/show_dialog.dart';
+import 'package:socceirb/components/success_alert.dart';
 import 'package:socceirb/constants.dart';
 import 'package:socceirb/screens/Home/components/home_locationInput.dart';
 import 'package:socceirb/screens/Home/components/home_top_container.dart';
@@ -67,7 +69,7 @@ class HomeState extends State<Home> {
                 time: data['Time'],
                 players: data['Players'],
                 id: document.id,
-                admin: '',
+                admin: data['Admin'],
                 usersJoining: {},
               )
             });
